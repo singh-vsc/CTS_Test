@@ -1,0 +1,33 @@
+{% if pageContext.search.query %}
+	{% partial_cache model.categoryId pageContext.search.categoryId pageContext.Sorting pageContext.Pagination pageContext.query.sortBy pageContext.search.query %}
+		{% if themeSettings.hideProductPropertyEnabled and themeSettings.hideProductProperty %}
+			{% if pageContext.search.categoryId %}
+				{% with labels.hideProductFilterWithCategoryId|string_format(themeSettings.hideProductProperty, "true", pageContext.search.categoryId) as filterStr %}
+					{% include_products "modules/product/json-products" with includeFacets=false and pageWithUrl=true and sortWithUrl=true and pageSize=themeSettings.defaultPageSize and searchQuery=pageContext.search.query and filter=filterStr as_parameter %}
+				{% endwith %}
+			{% else %}
+				{% with labels.hideProductFilterWithoutCategoryId|string_format(themeSettings.hideProductProperty, "true") as filterStr %}
+					{% include_products "modules/product/json-products" with includeFacets=false and pageWithUrl=true and sortWithUrl=true and pageSize=themeSettings.defaultPageSize and searchQuery=pageContext.search.query and filter=filterStr as_parameter %}
+				{% endwith %}
+			{% endif %}
+		{% else %}
+			{% include_products "modules/product/json-products" with includeFacets=false and pageWithUrl=true and sortWithUrl=true and pageSize=themeSettings.defaultPageSize and searchQuery=pageContext.search.query as_parameter %}
+		{% endif %}
+	{% endpartial_cache %}
+{% else %}
+	{% partial_cache model.categoryId pageContext.search.categoryId pageContext.Sorting pageContext.Pagination pageContext.query.sortBy %}
+		{% if themeSettings.hideProductPropertyEnabled and themeSettings.hideProductProperty %}
+			{% if pageContext.search.categoryId %}
+				{% with labels.hideProductFilterWithCategoryId|string_format(themeSettings.hideProductProperty, "true", pageContext.search.categoryId) as filterStr %}
+					{% include_products "modules/product/json-products" with includeFacets=false and pageWithUrl=true and sortWithUrl=true and pageSize=themeSettings.defaultPageSize and filter=filterStr as_parameter %}
+				{% endwith %}
+			{% else %}
+				{% with labels.hideProductFilterWithoutCategoryId|string_format(themeSettings.hideProductProperty, "true") as filterStr %}
+					{% include_products "modules/product/json-products" with includeFacets=false and pageWithUrl=true and sortWithUrl=true and pageSize=themeSettings.defaultPageSize and filter=filterStr as_parameter %}
+				{% endwith %}
+			{% endif %}
+		{% else %}
+			{% include_products "modules/product/json-products" with includeFacets=false and pageWithUrl=true and sortWithUrl=true and pageSize=themeSettings.defaultPageSize as_parameter %}
+		{% endif %}
+	{% endpartial_cache %}
+{% endif %}

@@ -1,0 +1,199 @@
+
+{% autoescape on %}{% block doctype %}<!DOCTYPE html>{% endblock doctype %}{% block open-html-tag %}
+<!--[if lt IE 7]><html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if IE 9]><html class="no-js ie9" lang="en"> <![endif]-->
+<!--[if (gt IE 9)|(!IE) ]><!--><html class="no-js" lang="en"><!--<![endif]-->{%endblock open-html-tag %}
+{% block head-tag %}<head>
+
+
+        {% include "modules/json-required-for-hyprlive" %}
+        {% block meta-tags %}
+        {% if not user.isAnonymous and not user.isAuthenticated and user.email !== "" %}
+            <meta http-equiv="refresh" content="0;url=/logout">
+        {% endif %}
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0, user-scalable=no">
+        <meta name="twitter:card" content="summary">
+        {% if pageContext.productCode %}
+            <title>{% if model.content.metaTagTitle and model.content.metaTagTitle!='' %}{{model.content.metaTagTitle|replace("'","&rsquo;")|replace('"','&rdquo;')|safe}}{% else %}{{model.content.productName|replace("'","&rsquo;")|replace('"','&rdquo;')|safe}}{% endif %} - {{ siteContext.generalSettings.websiteName }}</title>
+            {% if PageContext.MetaDescription %}
+            <meta name="description" {% if PageContext.MetaDescription %} content='{{ PageContext.MetaDescription|replace("'","&rsquo;")|safe}}' {% endif %}>
+            {% else %}
+            {% if model.content.productShortDescription %}<meta name="description" content='{{ model.content.productShortDescription|replace("'","&rsquo;")|safe}}'>{% endif %}
+            {% endif %}
+        {% else %}
+            <title>{% block title-tag-content %}{{ siteContext.generalSettings.websiteName }}{% endblock title-tag-content %}</title>{% if PageContext.MetaDescription %}
+            {% if PageContext.MetaDescription %}<meta name="description" content='{{ PageContext.MetaDescription|replace("'","&rsquo;")|safe}}'>{% endif %}
+            {% endif %}
+        {% endif %}
+        {% if model.content.productName %}
+            <meta property="og:title" content='{% firstof pageContext.metaTitle|replace("'","&rsquo;")|replace('"','&rdquo;')|safe model.content.productName|replace("'","&rsquo;")|replace('"','&rdquo;')|safe %} - {{ siteContext.generalSettings.websiteName }}'>
+        {% else %}
+            {%if location %}
+                {% with location.name as locationName %}
+                    <meta property="og:title" content='{{ locationName|safe }}'>
+                {% endwith %}
+            {% else %}
+                {%if PageContext.metaTitle %}
+                    <meta property="og:title" content='{{ PageContext.metaTitle|replace("'","&rsquo;")|replace('"','&rdquo;')|safe }}'>
+                {%endif%}
+            {%endif%}
+        {% endif %}{% if PageContext.MetaDescription %}
+        <meta property="og:description" content='{{ PageContext.MetaDescription|replace("'","&rsquo;")|safe }}'>
+        {% endif %}{% if model.mainImage %}
+        <meta property="og:image" content='https:{% make_url "image" model.mainImage with maxWidth=350 as_parameters %}'>
+        {%else%}
+        <meta property="og:image" content='{% if themeSettings.defaultStoreImage %}{{themeSettings.defaultStoreImage}}{% endif %}'>
+        {% endif %}{% if PageContext.MetaKeywords %}
+        <meta name="keywords" content='{{ PageContext.MetaKeywords|replace("'","&rsquo;") }}'>
+        {% endif %}{% if PageContext.correlationId %}
+        <meta name="correlationId" content="{{ PageContext.correlationId }}">
+        {% endif %}{% endblock meta-tags %}
+        {% if PageContext.FeedUrl  %}
+        <link rel="alternate" type="application/rss+xml" title="{{ PageContext.Title }}" href="{{ PageContext.FeedUrl }}">
+        {% endif %}
+        <meta property="og:url" content="{{ PageContext.url }}">
+        <meta property="og:site_name" content="{{ siteContext.generalSettings.websiteName }}">
+	    <meta property="og:type" content="website">
+        {% if PageContext.CrawlerInfo.CanonicalUrl  %}
+        <link rel="canonical" href="{{PageContext.url}}">
+        {% endif %}
+        {% if PageContext.CrawlerInfo.PreviousUrl  %}
+        <link rel="prev" href="{{PageContext.CrawlerInfo.PreviousUrl}}">
+        {% endif %}
+        {% if PageContext.CrawlerInfo.NextUrl  %}
+        <link rel="next" href="{{PageContext.CrawlerInfo.NextUrl}}">
+        {% endif %}
+        {% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{% make_url "stylesheet" "/stylesheets/storefront.less" %}" title="default" media="all">
+        <link rel="stylesheet" type="text/css" href="{% make_url "stylesheet" "/stylesheets/ml/print.less" %}" media="print">
+        {% endblock stylesheets %}
+        {% block head-tag-scripts %}
+        <script type="text/javascript" src="{% make_url "cdn" "/scripts/vendor/modernizr.min.js" %}"></script>
+        <script type="text/javascript" src="{{siteContext.cdnPrefix}}/scripts/vendor/object.assign.js?cacheKey={{ siteContext.hashString }}"></script>
+        {% endblock head-tag-scripts %}
+        {% cms_resources %}
+        {%header_content%}
+        {% if navigation.breadcrumbs.length > 0 %}
+        <script type="text/json" id="data-mz-preload-hierarchy">
+        {
+            "categoryValue": [{% for item in navigation.breadcrumbs %}"{{ item.originalId }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+            "categoryNames": [{% for item in navigation.breadcrumbs %}"{{ item.name }}"{% if not forloop.last %},{% endif %}{% endfor %}]
+        }
+        </script>
+
+        
+        {% endif %}
+        {% if recentProducts %}
+            {% with recentProducts|split(',') as recentProduct %}
+                {% if recentProduct %}
+                    <script type="text/json" id="data-mz-preload-recentProductsWithUrl">"{% for item in recentProduct %}{% if themeSettings.siteb2c %}https://www.companyc.com/p/{{item}}{% else %}https://b2b.companyc.com/p/{{item}}{% endif %}{% if not forloop.last %},{% endif %}{% endfor %}"</script>
+                {% endif %}
+            {% endwith %}
+        {% endif %}
+        <link rel="shortcut icon" href="/resources/images/favicon.ico" type="image/vnd.microsoft.icon">
+    </head>{% endblock head-tag %}
+    {% block body-tag %}
+        {% block cookie-data %}
+            <script type="text/javascript">
+                    function getCookie(cname) {
+                        var name = cname + "=";
+                        var ca = document.cookie.split(';');
+                        for(var i=0; i<ca.length; i++) {
+                            var c = ca[i].trim();
+                               if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+                        }
+                        return "";
+                    }
+
+                   /* var cookieData = getCookie('v4');
+                    console.log("Cookie Data : "+cookieData);
+                    if(typeof cookieData !== 'undefined' && cookieData !== '') {
+                        console.log("GetCookie : "+cookieData);
+                    } else {
+                        console.log("Cookie not available");
+                    }*/
+                
+                // console.log("Cookie Data : "+readCookie);
+                var cookieData = {
+                    "UserData": {
+                        "cookieInput": "cookieaccepted"
+                    }
+                };
+            </script> 
+        {% endblock cookie-data %}
+
+        {% block open-body-tag %}
+        <body class="{% block body-tag-classes %}{% endblock body-tag-classes %}">
+            {% if themeSettings.tealiumEnabled %}
+                {% include "modules/analytics/tealium-code" model=model %}
+            {% endif %}
+            <a href="#page-content" class="sr-only">Skip to main content</a>
+            {% endblock open-body-tag %}<div id="page-wrapper" class="mz-l-pagewrapper">
+            {% if themeSettings.showCookieNotice %}
+            {% require_script "modules/cookie-notice" %}
+            {% endif %}
+
+            {% block utility-bar %}
+                {% include "modules/utility-bar/header" %}
+            {% endblock utility-bar %}
+
+            {% block page-header %}
+                {% include "modules/page-header" %}
+            {% endblock page-header %}
+
+            {% block site-nav %}
+                {% include "modules/site-nav" %}
+            {% endblock site-nav %}
+
+            {% block mobile-promo %}
+                {% include "modules/mobile-promo" %}
+            {% endblock mobile-promo %}
+
+            {% block login-slider %}
+                {% include "modules/login/login" %}            
+            {% endblock login-slider %}
+            
+            {% include "modules/home-promo" %}
+            <div role="main" id="page-content" class="mz-l-pagecontent">
+                <div class="container">
+                    <div class="row">               
+                        {% block body-content %}
+                        {% dropzone "body" scope="page" %}
+                        {% endblock body-content %}
+                        {% block body-below-content %}
+                        {% dropzone "body-bottom" scope="template" %}
+                        {% endblock body-below-content %}
+                    </div>
+                </div>
+            </div>
+            {% block secondary-nav %}
+            {% include "modules/secondary-nav" %}
+            {% endblock secondary-nav %}
+            {% block page-footer %}
+            {% include "modules/page-footer" %}
+            {% endblock page-footer %}
+            {% block copyright-footer %}
+                <div class="container footer-bottom">
+                    <div class="row container-visit">
+                        <div class="col-xs-12 text-center"><p>{{ labels.visitOurSites }}</p></div>
+                    </div>
+                    <div class="row container-visit-img">
+                        <div class="col-xs-12">
+                            {% dropzone "other-sites" scope="site" %}
+                        </div>
+                    </div>
+                </div>
+            {% endblock copyright-footer%}
+        </div>
+        {% block trailing-scripts %}
+        {% include "modules/trailing-scripts" %}
+        {% endblock trailing-scripts %}
+        {% visitor_tracking_pixel %}
+    </body>
+    {% endblock body-tag %}
+</html>
+{% endautoescape %}

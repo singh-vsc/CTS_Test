@@ -1,0 +1,135 @@
+﻿<nav class="mz-sitenav collapse" id="ml-nav" aria-label="{{labels.siteNavigation|safe}}">
+    <div class="container">
+      <ul class="mz-sitenav-list hidden-xs" 
+          data-mz-contextify='.mz-sitenav-link[href="{{ navigation.currentNode.url }}"]'
+          data-mz-contextify-attr='class'
+          data-mz-contextify-val='is-current'>
+          <li class="hide" aria-hidden="true">For Blank</li>
+          {% partial_cache %}
+          {% for link in navigation.tree %}
+            {% if not link.isHidden and not link.isEmpty and link.nodeType != "page" %}
+            <li class="mz-sitenav-item">
+              <div class="mz-sitenav-item-inner">
+                <a class="mz-sitenav-link main-link" {% if link.openInNewWindow %}target='_blank'{% endif %} href="{{link.url}}">{{link.name|replace("_", " ")|replace(themeSettings.columnBreaker, "")|safe}}</a>
+                {% if link.items %}
+                <div class="mz-sitenav-sub-container">
+                    <span class="sub-nav-arrow"></span>
+                  <ul class="mz-sitenav-sub">
+                    <li class="hide" aria-hidden="true">For Blank</li>
+                  {% for sublink in link.items %}
+                        {% if not sublink.isHidden and not sublink.isEmpty %}
+                            {%if sublink.name|first == themeSettings.columnBreaker%}
+                                </ul>
+                                <ul class="mz-sitenav-sub">
+                                <li class="hide" aria-hidden="true">For Blank</li>
+                            {%endif%}
+                          <li data-mz-role="sitemenu-item" class="mz-sitenav-item">
+                            <a class="mz-sitenav-link sub-link" {% if link.openInNewWindow %}target='_blank'{% endif %} href="{{sublink.url}}">{{ sublink.name|replace("_", " ")|replace(themeSettings.columnBreaker, "")|safe }}</a>
+                            
+                            {% if sublink.items %}
+                                <ul class="mz-sitenav-sub-sub clearfix">
+                                  {% for subsublink in sublink.items %}
+                                    {% if not subsublink.isHidden and not subsublink.isEmpty %}
+                                    <li class="mz-sitenav-item">
+                                    <a class="mz-sitenav-link sub-sub-link" {% if link.openInNewWindow %}target='_blank'{% endif %} href="{{subsublink.url}}">{{ subsublink.name|replace("_", " ")|replace(themeSettings.columnBreaker, "")|safe }}</a>
+                                    </li>
+                                    {% endif %}
+                                  {% endfor %}
+                                  <li class="hide" aria-hidden="true">For Blank</li>
+                                </ul>
+                            {% endif %}
+                            
+                          </li>
+                        {% endif %}
+                  {% endfor %}
+                    {% with "id eq {0}"|string_format(link.originalId) as filter %}
+                      {% include_entities "modules/category-attributes" listFQN=themeSettings.categoryEntityName filter=filter %}
+                    {% endwith %}                    
+                  </ul>
+                  
+                </div>
+                {% endif %}
+              </div>
+            </li>
+            {% endif %}
+          {% endfor %}
+          {% endpartial_cache %}
+          {% require_script "modules/contextify" %}
+      </ul>
+
+
+
+      <!-- Mobile Nav Section Test -->
+      <div class="panel-group hidden-lg hidden-md hidden-sm" id="accordion" role="tablist" aria-multiselectable="true">
+        {% partial_cache %}
+          {% for link in navigation.tree %}
+            {% if not link.isHidden and not link.isEmpty and link.nodeType != "page" %}
+              <div class="panel">
+                <div class="panel-heading" role="tab" id="main-nav-heading-{{link.categoryCode}}">
+                  <span class="panel-title text-uppercase">
+                    <a role="button" {% if link.openInNewWindow %}target='_blank'{% endif %}
+                      {% if link.items %} 
+                        href="javascript:void(0);" class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#main-nav-{{link.categoryCode}}" aria-expanded="false" aria-controls="main-nav-{{link.categoryCode}}"
+                      {% endif %}
+                      {% if not link.items %} href="{{link.url}}" {% endif %}>
+                      {{link.name|replace(themeSettings.columnBreaker, ""|replace("_", " ")|safe}}
+                      {% if link.items %} 
+                        <span class="glyphicon glyphicon-test pull-right" aria-hidden="true"></span> 
+                      {% endif %}
+                      
+                    </a>
+                  </span>
+                </div>
+                {% if link.items %}
+                <div id="main-nav-{{link.categoryCode}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="main-nav-heading-{{link.categoryCode}}">
+                  <div class="panel-body">
+
+                    <div class="panel-group" id="sub-accordion-{{link.categoryCode}}" role="tablist" aria-multiselectable="true">
+                      {% for sublink in link.items %}
+                        {% if not sublink.isHidden and not sublink.isEmpty %}
+                          <div class="panel">
+                            <div class="panel-heading" role="tab" id="sub-nav-heading-{{sublink.categoryCode}}">
+                              <span class="panel-title text-uppercase">
+                                <a role="button"{% if sublink.openInNewWindow %} target="_blank"{% endif %}                        
+                                  {% if sublink.items %} 
+                                    href="javascript:void(0);" class="collapsed" data-toggle="collapse" data-parent="#sub-accordion-{{link.categoryCode}}" data-target="#sub-nav-{{sublink.categoryCode}}" aria-expanded="false" aria-controls="sub-nav-{{sublink.categoryCode}}"
+                                  {% endif %}
+                                  {% if not sublink.items %} href="{{sublink.url}}"{% endif %}>
+                                  {{sublink.name|replace(themeSettings.columnBreaker, "")|replace("_", " ")|safe}}
+                                  {% if sublink.items %} 
+                                    <span class="glyphicon glyphicon-test pull-right" aria-hidden="true"></span> 
+                                  {% endif %}                                  
+                                </a>
+                              </span>
+                            </div>
+                            <div id="sub-nav-{{sublink.categoryCode}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="sub-nav-heading-{{sublink.categoryCode}}">
+                              <div class="panel-body">
+                                <div>
+                                  {% for subsublink in sublink.items %}
+                                    {% if not subsublink.isHidden and not subsublink.isEmpty %}
+                                      <div class="mz-sitenav-item">
+                                      <a class="mz-sitenav-link" {% if link.openInNewWindow %}target='_blank'{% endif %} href="{{subsublink.url}}">{{ subsublink.name|replace(themeSettings.columnBreaker, "")|replace("_", " ")|safe }}</a>
+                                      </div>
+                                    {% endif %}
+                                  {% endfor %}
+                                  <div class="mz-sitenav-item">
+                                    <a class="mz-sitenav-link" href="{{sublink.url}}">Shop All {{sublink.name|replace(themeSettings.columnBreaker, "")|replace("_", " ")|safe}}</a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endif %}
+                      {% endfor %}  
+                    </div>                  
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endpartial_cache %}
+      </div>
+
+    </div>  <!-- Closing Container -->
+</nav>

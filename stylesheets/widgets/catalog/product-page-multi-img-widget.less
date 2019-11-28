@@ -1,0 +1,52 @@
+.mz-multi-img-container {
+    .text-container {
+        .top {
+            display: inline-block;
+            top: 9%;
+        }
+        .right {
+            display: inline-block;
+            right: 10%;
+            
+            @media (min-width: 768px) and (max-width: 1024px) {
+                 right: 4%;
+            }
+            @media (min-width: 320px) and (max-width: 767px) {
+                right: 2%;
+            }
+        }
+        .bottom {
+            display: inline-block;
+            bottom: 15%;
+        }
+        .left {
+            display: inline-block;
+            left: 5%;
+            @media (min-width: 768px) and (max-width: 1024px) {
+                left: 2.5%;
+            }
+            @media (min-width: 320px) and (max-width: 767px) {
+                left: 1%;
+            }
+        }
+        .font-size {
+            font-size: 4.178rem;
+            position: absolute;
+            
+            @media (min-width: 768px) and (max-width: 1024px) {
+                 font-size: 3.2143rem;
+            }
+            @media (min-width: 320px) and (max-width: 767px) {
+                font-size: 1.67rem;
+            }
+        }
+    }
+    .mz-img {
+        
+        display: block;
+        img {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+}

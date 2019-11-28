@@ -1,0 +1,104 @@
+﻿<div class="ml-global-footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 hidden-xs">
+				{% dropzone "footer-dropzone-1" scope="site" %}
+			</div>
+			<div class="col-xs-12">
+				{% if pageContext.categoryId %}
+					{% with "id eq {0}"|string_format(pageContext.categoryId) as filter %}
+						{% include_entities "modules/seotext-attributes" listFQN=themeSettings.categoryEntityName filter=filter %}
+					{% endwith %}
+				{% endif %}
+				{% if pageContext.cmsContext.template.path == "home" or pageContext.isEditMode and pageContext.cmsContext.template.path=="" %}
+					{% dropzone "footer-dropzone-2" scope="site" %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<div class="row first-row">
+			
+			<div class="col-xs-12 container-menu col-sm-7 col-md-8 regular-footer {% if themeSettings.footerEnableMini %}mini-footer-on{% else %}mini-footer-off{% endif %}">
+				<div class="row container-links">
+					<div class="col-xs-12">
+						<div class="row">
+							<div class="col-xs-6 col-sm-4">
+								{% dropzone "footer-cat-links-col1" scope="site" %}
+							</div>
+							<div class="col-xs-6 col-sm-4">
+								{% dropzone "footer-cat-links-col2" scope="site" %}
+							</div>
+							<div class="col-xs-6 col-sm-4 top-pad">
+								{% dropzone "footer-cat-links-col3" scope="site" %}
+							</div>
+						</div>
+					</div>								
+				</div>
+				<div class="row container-copyright">
+					<div class="col-xs-12 term-text">
+						{% dropzone "footer-copy-links" scope="site" %}
+						<span class="no-hover copy-text hidden-xs">&copy; {% now Y %} {{ labels.copyWriteText }}</span>
+					</div>
+				</div>
+
+			</div>	
+			<div class="col-xs-12 col-sm-5 col-md-4 container-signup">
+				<div>
+					{% if themeSettings.enableEmailSubscription %}
+					<form class="form">
+						<div class="form-group">
+							<label for="footerSignUpInput" class="control-label text-uppercase no-hover">{{ labels.footerSignUpEmail }}</label>
+							<div class="input-group">					  	
+								<input type="email" id="footerSignUpInput" maxlength="254" class="form-control" placeholder="{{ labels.yourEmailAddress }}">
+								<span class="input-group-btn">
+									<button class="btn btn-default button_promotional text-uppercase" type="submit" id="emailSignUp">{{ labels.signUp }}</button>
+								</span>
+							</div>
+							<span id="emailHelpBlock" class="text-danger"></span>
+						</div>						
+					</form>
+					{% endif %}
+					<form class="form">
+						<div class="form-group">
+							<label for="footerZipCodeInput" class="control-label text-uppercase">{{ labels.storeLocator }}</label>
+							<div class="input-group">					  	
+								<input type="text" id="footerZipCodeInput" class="form-control" maxlength="50" placeholder="{{ labels.enterZipCode }}">
+								<span class="input-group-btn">
+									<button id="btnFindStore" class="btn btn-default button_promotional text-uppercase" type="submit">{{ labels.find }}</button>									
+								</span>
+							</div>
+							<span id="zipcodeHelpBlock" class="text-danger hidden">Please enter a valid zipcode.</span>
+						</div>
+					</form>	
+
+									
+				</div>
+				<div class="container-social">
+					<div class="heading text-uppercase">{{ labels.connectWithUs }}</div>
+					<div>
+						<a title="Facebook" href="https://www.facebook.com/ChristmasTreeShopsandThat" target="_blank"><i class="fa fa-facebook custom-icon"><span class="hide">Facebook Icon</span></i></a>
+						<a title="Instagram" href="https://instagram.com/christmastreeshops/" target="_blank"><i class="fa fa-instagram"><span class="hide">Instagram Icon</span></i></a>
+						<a title="Pinterest" href="https://www.pinterest.com/CTSandThat/" target="_blank"><i class="fa fa-pinterest"><span class="hide">Pinterest Icon</span></i></a>
+					</div>
+				</div>
+			</div>	
+		</div>
+		<div class="row">
+			<div class="col-xs-12 {% if themeSettings.footerEnableMini %}mini-footer-off{% else %}mini-footer-on{% endif %}">
+				<div class="row">
+					<div class="col-xs-12 mini-links">
+						{% dropzone "mini-footer-cat-links" scope="site" %}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 mini-copy">
+						<span>&copy; {% now Y %} {{ labels.copyWriteText }}</span>
+					</div>
+				</div>
+			</div>			
+		</div>
+	</div>
+</footer>

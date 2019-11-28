@@ -1,0 +1,109 @@
+<div class="mz-productlisting {% block module-classes %}{% endblock module-classes %}{% if model.upc=='sold-out'%} mz-product-sold-out{% else %} mz-product-in-stock{% endif %}" data-mz-product="{{ model.productCode }}">
+                <div class="product-image-swatch-wrapper">
+                    <div class="mz-productlisting-image">
+                        {% block product-image %}
+                        <a href='{% make_url "product" model %}'>
+                            {% include "modules/product/product-image" with productImage=model.mainImage productMaxWidth=themeSettings.productImageDirectoryMaxWidth productAltText=model.mainImage.altText productImageClass="mz-sold-out-blur" as_parameter %}
+                            
+                            {# <div class="mz-product-badge{% if model.upc!='' %} {{model.upc}}{% endif %}"> #}
+                            {% if model.upc== ""%}
+                                <div class="mz-product-badge">
+                            {% endif %}
+                            {% if model.upc== "sold-out"%}
+                            <div class="mz-product-badge {{model.upc}}">
+                                <div>{{labels.soldOut}}</div>
+                            {% endif %}
+                            {%if model.upc== "special-price" or model.upc=="on-sale" and model.price.priceListEntryMode=="Simple" %}
+                            <div class="mz-product-badge special-price">
+                                <div>{{labels.specialPrice}}</div>
+                            {%endif%}
+                            {% if model.upc== "on-sale" and model.price.priceListEntryMode!="Simple" %}
+                            <div class="mz-product-badge {{model.upc}}">
+                                <div>{{labels.clearance}}</div>
+                            {%endif%}
+                            {%if model.upc== "multiple-sizes" %}
+                            <div class="mz-product-badge {{model.upc}}">
+                                <div>{{labels.multipleSizes}}</div>
+                            {%endif%}
+                            </div>
+                        </a>
+                        {% if model.productType != themeSettings.familyProductType %}
+                            <a class="quick-view-btn primary qvButton quickview-btn" data-toggle="modal" data-target="{{ model.productCode }}"{% if not model.viewAll %} data-mz-product-data="{% json_attribute model %}"{%endif%} data-navigation-name="{% include 'modules/product/tealium-search-navigation' with model=model as_parameter %}">
+                                <span>{{ labels.quickView }}</span>
+                            </a>
+                        {% endif %}
+                        {% endblock product-image %}
+                    </div>
+                    <!--Color Swatch-->
+                    {% for option in model.options %}
+                        {% if option.attributeFQN=="tenant~COLOR" and option.values.length!=0 %}
+                            <div class="ml-product-swatch mz-sold-out-blur">
+                                <div class="row">
+                                    <ul class="hide cat-page-ul{% if model.upc=='sold-out' %} mz-sold-out{% endif %}">
+                                        {% include "modules/facets/facet-color" with allfacets=option.values parent=option isListing="true" as_parameter %}
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="mz-productlisting-info mz-sold-out-blur">
+                    <div class="ml-product-info-wrapper">
+                    {% if model.upc== "sold-out"%}
+                        <span class="">{{model.content.productName|safe}}</span>
+                    {% else %}
+                        <a class="mz-productlisting-title" href='{% make_url "product" model %}'>{{model.content.productName|safe}}</a>
+                    {% endif %}
+                        {% block product-code %}
+                        {% if themeSettings.listProductCode %}
+                        <div class="mz-productlisting-productcode">#{{model.productCode}}</div>
+                        {% endif %}
+                        {% endblock product-code %}
+                        {% block product-extrainfo %}
+                            {% if dealOfTheDay %}
+                                {% if dealOfTheDay.savings %}
+                                    {% if model.price.discount.impact %}
+                                        <p class="mz-productlisting-savings">You save: {{ model.price.discount.impact|currency }}</p>
+                                    {% endif %}
+                                {% endif %}
+                                {% if dealOfTheDay.expirationDate %}
+                                    {% if model.price.discount.discount.expirationDate %}
+                                    <p class="mz-productlisting-expirationdate">Expires: {{ model.price.discount.discount.expirationDate|date("F j, Y") }}</p>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endblock product-extrainfo %}
+                    </div>
+                    <div class="ml-product-price-wrapper">
+                        {% include "modules/product/price-stack" %}
+                    </div>
+                    {% comment %}
+                    <div class="mz-directory-ratings">
+                        {% include "modules/product/product-ratings" %}
+                    </div>
+                    {% endcomment %}
+                    {% with model|get_product_attribute_value("tenant~Promo_Thumbnail") as promoThumb %}
+                    {% if not pageContext.isDesktop and promoThumb %}
+                        {% with model|get_product_attribute("tenant~Promo_End_Date") as endDate %}
+                            {% if endDate %}
+                                {% with endDate.values|first|prop("value") as endDateValue %}
+                                    {% if now|is_before(endDateValue) %}
+                                         {% with model|get_product_attribute("tenant~Promo_Start_Date") as startDate %} 
+                                            {% if startDate %}
+                                                {% with startDate.values|first|prop("value") as startDateValue %}
+                                                    {% if now|is_after(startDateValue) %}
+                                                        <div class="promo">
+                                                            {{ promoThumb }}
+                                                        </div>
+                                                    {% endif %}
+                                                {% endwith %}
+                                            {% endif %} 
+                                        {% endwith %}
+                                    {% endif %}
+                                {% endwith %}
+                            {% endif %} 
+                        {% endwith %}
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>

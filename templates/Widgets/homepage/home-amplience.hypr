@@ -1,0 +1,32 @@
+{% comment %}
+This is first iteration driving directly from the script (scripts->widgets->homepage->home-amplience.js)
+<div id="container"></div>
+{% endcomment %}
+
+{% comment %}
+Second iteration using the image name from the widget config no picture element
+<div>
+  <img src="https://i1.adis.ws/i/mozu/{{Model.config.imageName}}?$tt_poi$&w=2500&qlt=100&sm=aspect&aspect=1:2">
+</div>
+{% endcomment %}
+
+{% comment %}
+Third iteration using image name from widget + picture element and media queries with POI.
+<div class="image-video-wrapper text-center">
+    <div class="mz-alltext">
+        <div class="mz-title">{{ Model.config.imageName}}</div>
+    </div>
+</div>
+{% endcomment %}
+<div>
+<picture>
+<source srcset="https://i1.adis.ws/i/mozu/{{Model.config.imageName}}?$tt_poi$&amp;w=1300&amp;sm=aspect&amp;aspect=3:1" media="(min-width: 1200px)">
+<source srcset="https://i1.adis.ws/i/mozu/{{Model.config.imageName}}?$tt_poi$&amp;w=960&amp;sm=aspect&amp;aspect=2:1" media="(min-width: 720)">
+<source srcset="https://i1.adis.ws/i/mozu/{{Model.config.imageName}}?$tt_poi$&amp;w=1000&amp;qlt=100&amp;sm=aspect&amp;aspect=16:9" media="(min-width: 580px)">
+<source srcset="https://i1.adis.ws/i/mozu/{{Model.config.imageName}}?v=2.0&$tt_poi$&amp;w=400&amp;qlt=100&amp;sm=aspect&amp;aspect=1:2" media="(min-width: 320px)">
+<img srcset="https://i1.adis.ws/i/mozu/{{Model.config.imageName}}?w=320" style="width:100%;max-width:320;display:block">
+</picture>
+</div>
+
+
+{% require_script "widgets/homepage/home-amplience" %}

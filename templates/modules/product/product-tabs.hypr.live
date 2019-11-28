@@ -1,0 +1,63 @@
+<div class="mz-product-detail-tabs">
+    <ul class="tabs">
+        {% if model.content.productFullDescription %}
+        <li class="active" rel="productLongDesc">{{ themeSettings.productLongDescHeader }}</li>
+        {% endif %}
+        {% if productTabs %}
+            {% for productTab in productTabs %} 
+                {% if productTab.key == "tenant~CAWarning" or productTab.key == "tenant~Prop_65" %}
+                    {% with model.properties|findwhere("attributeFQN", productTab.key)|last as specialContent %}
+                        {% if specialContent.key === "values"%}
+                            {% for val in specialContent.value %}
+                                {% if val.value === true %}
+                                <li rel="{{ productTab.key|replace("tenant~") }}">{{ productTab.label }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                {% else %}
+                    {% with model|get_product_attribute_value(productTab.key) as tabContent %}
+                        {% if tabContent != model.content.productFullDescription %}
+                        <li rel="{{ productTab.key|replace("tenant~") }}">{{ productTab.label }}</li>
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </ul>
+    <div class="tab_container">
+        {% if model.content.productFullDescription %}
+            <div class="d_active tab_drawer_heading" rel="productLongDesc">{{ themeSettings.productLongDescHeader }} <span></span></div>
+            <div id="productLongDesc" class="tab_content">
+                {{ model.content.productFullDescription|safe }}
+            </div>
+        {% endif %}
+        {% if productTabs %}
+            {% for productTab in productTabs %}
+                {% if productTab.key == "tenant~CAWarning" or productTab.key == "tenant~Prop_65" %}
+                    {% with model.properties|findwhere("attributeFQN", productTab.key)|last as specialContent %}
+                        {% if specialContent.key === "values"%}
+                            {% for val in specialContent.value %}
+                                {% if val.value === true %}
+                                <h3 class="tab_drawer_heading" rel="{{ productTab.key|replace("tenant~") }}">{{ productTab.label }} <span></span></h3>
+                                <div id="{{ productTab.key|replace("tenant~") }}" class="tab_content">
+                                    <p>{{ productTab.content|safe }}</p>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                {% else %}
+                    {% with model|get_product_attribute_value(productTab.key) as tabContent %}
+                        {% if tabContent != model.content.productFullDescription %}
+                        <h3 class="tab_drawer_heading" rel="{{ productTab.key|replace("tenant~") }}">{{ productTab.label }} <span></span></h3>
+                        <div id="{{ productTab.key|replace("tenant~") }}" class="tab_content">
+                        {{ model|get_product_attribute_value(productTab.key)|safe }}
+                        </div>
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>

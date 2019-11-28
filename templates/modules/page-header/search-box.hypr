@@ -1,0 +1,18 @@
+﻿<form id="searchbox" class="mz-searchbox" action="/search">
+    <span class="mz-searchbox-field{% if not themeSettings.useSearchAutocomplete %} hide-autocomplete{% endif %}">
+        <label for="search-field" class="hide" aria-labelledby="search-field">
+            <span>{{labels.searchQuery}}</span></label>
+        <button class="mz-searchbox-button" type="submit">
+            <img src="//cdn-sb.mozu.com/24495-m1/cms/files/9364cab2-ce19-4aa8-856b-ed8a6572675e"/>
+        </button>
+
+        <input placeholder="SEARCH" aria-label="{{labels.searchQuery}}" id="search-field" type="search" class="mz-searchbox-input ml-header-search-field form-control" autocomplete="off" name="query" data-mz-role="searchquery">
+    
+    </span>
+
+    {% require_script "modules/contextify" %}
+    {% if themeSettings.useSearchAutocomplete %}
+        {% require_script "modules/search-autocomplete" %}
+    {% endif %}
+    <input type="hidden" name="categoryId" value="{{themeSettings.allProductsCategoryId}}">
+</form>

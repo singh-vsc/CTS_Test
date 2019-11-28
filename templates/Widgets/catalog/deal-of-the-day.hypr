@@ -1,0 +1,4 @@
+﻿<h3>{{ labels.dealOfTheDay }}</h3>
+<div class="mz-deal-of-the-day" data-mz-deal-of-the-day ="{% json_attribute Model.config %}">
+</div>
+{% require_script "widgets/deal-of-the-day" %}

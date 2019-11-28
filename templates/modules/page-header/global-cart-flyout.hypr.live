@@ -1,0 +1,143 @@
+<div class="arrow-up"></div>
+{% if pageContext.isEditMode and pageContext.cmsContext.template.path=="" %}
+	<div class="close-globalcontainer"><span class="close-globalCart glyphicon glyphicon-remove ml-icon-close"></span></div>
+{% endif %}
+<script type="text/json" id="data-mz-preload-globalcart">
+	{
+		"items": [
+			{% for item in model.items %}
+				{"productCode": "{{item.product.productCode}}"
+				}{% if not forloop.last %},{% endif %}
+			{% endfor %}
+		]
+	}
+</script>
+{% if model.items.length>0 %}
+	<div class="media-list">	
+		<div class="row heading">
+			<div class="col-xs-7">
+				<p>{{ labels.item }}</p>
+			</div>
+			<div class="col-xs-3 text-center">
+				<p>{{ labels.price }} {{ labels.each }}</p>
+			</div>
+			<div class="col-xs-2 text-right">
+				<p>{{ labels.price }}</p>
+			</div>
+		</div>
+		{% for items in model.cartItems  %}
+			<div class="row listing">
+				<div class="col-xs-3 item-image">
+					<a href="/p/{{items.product.productCode}}/">
+						{% with items.product|get_product_attribute("tenant~color") as colorAttr %}  
+						  {% if colorAttr %}
+						  	{% with colorAttr.value|replace(" ","_") as colorValue %}
+						      {% with "/cms/files/{0}_{1}_v1.jpg"|string_format(items.product.productCode, colorValue) as fileName %}
+						            <img class="mz-itemlisting-thumb-img mz-carttable-item-image" src="https:{% make_url "cdn" fileName with maxWidth=105 %}" {% if items.product.imageAlternateText %}alt="{{ items.product.imageAlternateText }}" {%else%}alt='{{ items.product.name|safe }}' {% endif %} />   
+						      {% endwith %}     
+						    {% endwith %}
+						  {% else %}
+						    {% if items.product.imageUrl %}
+						          <img class="mz-itemlisting-thumb-img mz-carttable-item-image" src="{% make_url "image" items.product with maxWidth=105 %}" {% if items.product.imageAlternateText %}alt="{{ items.product.imageAlternateText }}" {%else%}alt='{{ items.product.name|safe }}' {% endif %} />
+						    {% else %}
+						      	{% include "modules/product/product-no-image" %}
+						    {% endif %}    
+						  {% endif %}  
+						{% endwith %}
+					</a>
+				</div>
+				<div class="col-xs-4 title-box">
+					<h5 class="media-heading">
+						<a href="/p/{{ items.product.productCode }}">
+							{{ items.product.name|safe }}
+						</a>
+					</h5>
+					{% if items.product.options and items.product.productType != themeSettings.oneSizeProductType %}
+						{% for option in items.product.options %}
+						<p>{% if option.name == "OTHER" %}
+                    			OPTION
+                    		{% else %}
+                    			{{ option.name }}
+                    		{% endif %}: {% if option.stringValue %}
+								{% if option.stringValue == 'CHR(36)' %}
+								$
+								{% else %}
+								{% if option.stringValue == 'CHR(38)' %}
+								&amp;
+								{% else %}
+									{% if option.stringValue == 'CHR(64)' %}
+									@
+									{% else %}
+									{% if option.stringValue %}
+										{{ option.stringValue }}
+									{% else %}
+										{{ option.value|default(option.shopperEnteredValue) }}
+									{% endif %}
+									{% endif %}
+								{% endif %}
+								{% endif %}
+							{% else %}
+								{{ option.value }}
+							{% endif %}</p>
+						{% endfor %}
+					{% endif %}
+					<p>Qty: {{ items.quantity }}</p>
+				</div>
+				<div class="col-xs-3 price-each text-right">
+					 {% include "modules/common/item-price" with item=items %}
+				</div>
+				<div class="col-xs-2 text-right">
+					<span>{% include "modules/common/item-total" with item=items isGlobalCart="true" %}
+					</span>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+	<div class="row total">
+		<div class="col-xs-4">
+	    	{% if model.items.length > themeSettings.globalCartMaxItemCount %}
+				<a href="/cart/"> {{model.items.length-themeSettings.globalCartMaxItemCount}} {{ labels.moreItems }} </a>
+			{% endif%}
+	    </div>
+		<div class="col-xs-8 text-right price-details">
+            {%if model.discountedSubtotal > 0 %}
+            <span>{{ labels.merchandiseSubtotal }}: {{ model.discountedSubtotal|currency }}</span>
+            {%else%}
+            <span>{{ labels.merchandiseSubtotal }}: {{ model.subtotal|currency }}</span>
+            {%endif%}
+			{% if model.orderDiscounts %}
+				{% for orderDiscount in model.orderDiscounts  %}
+					<div class="discount">
+						<p class="pull-left">{{ orderDiscount.discount.name }}</p>
+						<p>: - {{ orderDiscount.impact |currency }}</p>
+						<div class="clearfix"></div>
+					</div>
+				{% endfor %}
+			{% endif %}
+			{% if themeSettings.globalCartShowSubtotal %}
+			<span> {{ labels.subtotal }}: {{ model.total|currency }}</span>
+			{% endif %}
+	    </div>
+	</div>
+	<div class="row checkout">
+		<div class="col-xs-7">
+			<a href="/cart" class="btn link-green text-uppercase">{{ labels.openCart }}</a>
+			{% if (themeSettings.globalCartEnableSaveCart && user.isAnonymous && user.isAuthenticated && false)  %}
+				<button data-mz-action="openLiteRegistration" class="btn btn-default">Save Cart</button>
+			{% endif %}
+		</div>
+		<div class="col-xs-5 text-right">
+			{% if not user.isAnonymous && user.isAuthenticated %}
+			<form method="post" id="registeredCheckout">
+				<button type="submit" class="btn btn-default button_primary font-medium" data-mz-action="proceedToCheckout">{{ labels.checkout }}</button>
+			</form>
+			{% else%}
+				<button type="submit" class="btn btn-default button_primary font-medium" data-mz-action="checkoutGuest">{{ labels.checkout }}</button>
+			{% endif%}
+		</div>
+	</div>
+{% else %}
+	<div class="text-center">
+		<div class="global-cart-empty-text">Your Shopping cart is empty</div>
+	</div>
+{% endif %}

@@ -1,0 +1,73 @@
+/* ==================== Imports ==================== */
+@font-face {}
+
+/* ==================== Common ==================== */
+.is-mobile .livechat-subtext {
+  display: none;
+}
+
+/* ==================== Pre-Chat ==================== */
+.livechat-prechat {
+  background-color: #fff;
+}
+
+.livechat-prechat-form-container {
+  background: #fff;
+}
+
+.livechat-prechat-submit-btn,
+.livechat-prechat-submit-btn:focus {
+  display: block;
+  background-color: #ffb540;
+  color: #fff;
+  border-radius: 0;
+  margin: auto;
+}
+
+.livechat-prechat-submit-btn:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+/* ==================== In-Chat ==================== */
+.livechat-inchat {
+  background-color: #eee;
+}
+
+.livechat-send-btn,
+.livechat-send-btn:focus {
+  background-color: #000;
+}
+
+.livechat-send-btn:hover {
+  background-color: #444;
+}
+
+.client {
+  background-color: #38e;
+}
+
+.client:after {
+  border-bottom-color: #38e;
+}
+
+.livechat-inchat-container .livechat-inchat-buttons{
+  top: -25px!important;
+}
+
+.livechat-inchat-container .livechat-company-logo{
+  width: 50%;
+}
+
+.livechat-inchat-container .livechat-text{
+  font-size: 18px;
+}
+
+.livechat-inchat-container .liveAgentSaveButton, 
+.livechat-inchat-container .liveAgentEndButton{
+  font-size: 1.0em!important;
+}
+
+.liveAgentStateEnded .liveAgentEndButton {
+  display : none; 
+}

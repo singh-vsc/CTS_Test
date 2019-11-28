@@ -1,0 +1,63 @@
+﻿<div id="associate-login-container"></div>
+
+<header class="mz-pageheader{% if themeSettings.bannerImageEnabled %} mz-pageheader-hasbanner {% endif %}">
+    <div class="container">
+        <div class="row">
+        <div class="ml-header-content">
+            <div class="col-sm-3 hidden-xs">
+                <div class="ml-header-logo-wrapper hidden-xs">
+                {% block store-branding %}
+                    {% include "modules/page-header/store-branding" %}
+                {% endblock store-branding %}
+                <!-- <!-- Commenting out cart/checkout entry point for the time being
+
+                {# <a href="{% make_url "cart" %}" class="visible-xs mobile-icon pull-right"><span class="custom-icon">
+                    <span class="hide">Cart</span>
+                    <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="8 5 93 63">
+                        <g>
+                            <polyline fill="none" stroke="#0CB1C9" stroke-width="6" stroke-miterlimit="10" points="8.051,8 28.264,8 39.189,43.51
+                                86.578,43.51 98.051,5.814"></polyline>
+                            <line fill="none" stroke="#0CB1C9" stroke-width="6" stroke-miterlimit="10" x1="38.097" y1="8" x2="87.81" y2="8"></line>
+                            <line fill="none" stroke="#0CB1C9" stroke-width="6" stroke-miterlimit="10" x1="41.921" y1="20.019" x2="85.078" y2="20.019"></line>
+                            <line fill="none" stroke="#0CB1C9" stroke-width="6" stroke-miterlimit="10" x1="44.652" y1="31.491" x2="81.253" y2="31.491"></line>
+                            <circle fill="#0CB1C9" stroke="#0CB1C9" stroke-width="4" stroke-miterlimit="10" cx="80.161" cy="58.807" r="6.555"></circle>
+                            <circle fill="#0CB1C9" stroke="#0CB1C9" stroke-width="4" stroke-miterlimit="10" cx="45.198" cy="58.807" r="6.555"></circle>
+                        </g>
+                    </svg>
+                </span></a> #} -->
+
+
+
+
+
+
+                    
+                </div>
+                <a href="/store-locator" class="visible-xs mobile-icon pull-right"><span class="glyphicon glyphicon-map-marker"><span class="hide">Store</span></span></a>
+            </div>
+            <div class="col-sm-9 col-xs-12">
+                <!-- {# <div class="ml-header-search-wrapper">
+                    {% block search-box %}
+                        {% include "modules/page-header/search-box" %}
+                    {% endblock search-box %}
+                </div> #}
+                -->
+                <div class="ml-header-links-wrapper"> 
+                    {% block utility-nav %}
+                        {% include "modules/page-header/utility-nav" %}
+                    {% endblock utility-nav %}
+                </div>
+            <!-- Commenting out cart/checkout entry point for the time being
+
+            {# <div class="ml-header-global-cart-wrapper" style="display:none;">
+                {% block global-cart-container %}
+                    {% include "modules/page-header/global-cart-container" %}
+                {% endblock global-cart-container %}              
+            </div> #}
+
+             -->
+                </div>
+             </div>
+        </div>
+    </div>
+</header>

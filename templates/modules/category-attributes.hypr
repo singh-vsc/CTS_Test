@@ -1,0 +1,15 @@
+{% if model %}
+	{% with model|first as entityModel %}
+	{% if entityModel.mainUrl!='' %}
+	<li data-mz-role="sitemenu-item" class="mz-sitenav-item" id="{{link.originalId}}">
+		<a href="{{entityModel.mainUrl}}">
+	{% endif %}
+	{% if entityModel.mainImage!='' and entityModel.mainImage!='#' %}
+			<img class="img-responsive" src="{% make_url "image" entityModel.mainImage with width=370 as_parameters %}" alt="{{entityModel.mainImageAltText}}">
+	{% endif %}
+	{% if entityModel.mainUrl!='' %}
+		</a>
+	</li>
+	{% endif %}
+	{% endwith %}
+{% endif %}

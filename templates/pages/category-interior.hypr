@@ -1,0 +1,16 @@
+{% partial_cache model.categoryId pageContext.Sorting pageContext.Pagination pageContext.query.sortBy %}
+	{% if themeSettings.hideProductPropertyEnabled and themeSettings.hideProductProperty %}
+		{% if model.categoryId %}
+			{% with labels.hideProductFilterWithCategoryId|string_format(themeSettings.hideProductProperty, "true", model.categoryId) as filterStr %}
+				{% include_products "modules/product/faceted-products" with includeFacets=themeSettings.showCategoryFacets and pageWithUrl=true and sortWithUrl=true and pageSize=themeSettings.defaultPageSize and filter=filterStr as_parameter %}
+			{% endwith %}
+		{% else %}
+			{% with labels.hideProductFilterWithoutCategoryId|string_format(themeSettings.hideProductProperty, "true") as filterStr %}
+				{% include_products "modules/product/faceted-products" with includeFacets=themeSettings.showCategoryFacets and pageWithUrl=true and sortWithUrl=true and pageSize=themeSettings.defaultPageSize and filter=filterStr as_parameter %}
+			{% endwith %}
+		{% endif %}
+	{% else %}
+		{% include_products "modules/product/faceted-products" with includeFacets=themeSettings.showCategoryFacets and pageWithUrl=true and sortWithUrl=true and pageSize=themeSettings.defaultPageSize as_parameter %}
+	{% endif %}
+{% endpartial_cache %}
+{% dropzone "category-page-bottom" scope="page" %}

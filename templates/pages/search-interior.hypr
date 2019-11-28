@@ -1,0 +1,3 @@
+﻿<h1 class="mz-pagetitle col-xs-12">{{ labels.searchResults }}: <span class="mz-searchresults-query">{{ pageContext.search.query }}</span></h1>
+{% include "modules/product/faceted-products" %}
+{% dropzone "search-results" scope="template" %}

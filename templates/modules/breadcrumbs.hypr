@@ -1,0 +1,17 @@
+﻿{% if navigation.breadcrumbs.length != 0 %}
+  <script type="text/json" id="data-mz-preload-breadcrumb">
+    [{% for item in navigation.breadcrumbs %}{"url": "{{item.url}}","name": "{{item.name|replace("_", " ")|replace(themeSettings.columnBreaker, "")|safe}}"}{% if not forloop.last %},{% endif %}{% endfor %}]
+  </script>
+<div class="mz-breadcrumbs margin-bottom-15 clearfix{% if lastCategory %} fromcookie{% endif %}">
+    <ul>
+      {% if navigation.breadcrumbs.length > 0 %}
+        <li><a href="/" class="mz-breadcrumb-link">Home</a> </li>
+      {% endif %}
+      {% if lastCategory %}
+      {% include "modules/breadcrumb-interior" with breadcrumbs=lastCategory %}
+      {% else %}
+      {% include "modules/breadcrumb-interior" with breadcrumbs=navigation.breadcrumbs %}
+      {% endif %}
+    </ul>
+</div>
+{% endif %}

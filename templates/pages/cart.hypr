@@ -1,0 +1,92 @@
+﻿{% extends "page" %}
+
+{% block title-tag-content %}{% firstof pageContext.metaTitle|safe labels.cart %} - {% parent %}{% endblock title-tag-content %}
+
+{% block head-tag-scripts %}
+{% parent %}
+{% if siteContext.checkoutSettings.visaCheckout.isEnabled and not pageContext.isEditMode %}
+{% include "modules/common/anti-clickjacking-script" %}
+{% endif %}
+{% endblock head-tag-scripts %}
+
+{% block body-tag-classes %}mz-cart{% endblock body-tag-classes %}
+
+{% block secondary-nav %}{% endblock secondary-nav %}
+
+{% block body-content %}
+
+{% require_script "pages/cart" %}
+
+{% preload_json model "cart" %}
+    
+{% block cookie-data %}
+    <script type="text/javascript">
+        var cookieData = {
+            "UserData": {
+                "cookieData": "opted"
+            }
+        };
+    </script> 
+{% endblock cookie-data %}
+
+<div class="mz-l-container">
+	<h1 class="mz-pagetitle">{{ labels.yourCart }}</h1>
+    <div class="clearfix"></div>
+    <!-- Commenting out cart/checkout entry point for the time being
+	<!-- Check if model is not empty and form product table if not-->
+	<!-- 
+	{# {% if not model.isEmpty %}  
+			<form action="/cart/checkout" method="post" id="cartform">
+				{% dropzone "cart-top" scope="template" %}
+				<input type="hidden" name="id" value="{{model.id}}" />
+		        {% include "modules/common/message-bar" with model=model.messages %}
+		        <div class="mz-table mz-table-cart" id="cart">
+		            {% include "modules/cart/cart-table" %}
+		        </div>
+				
+				{% if not model.isEmpty %}
+					{% with siteContext.checkoutSettings.externalPaymentWorkflowSettings|findwhere("isEnabled", true) as externalPaymentWorkflowsEnabled %}
+					{% if externalPaymentWorkflowsEnabled %}
+						<div class="col-xs-12 text-right">
+						<div class="margin-bottom-15">{{labels.orWith}}</div>
+						{% for externalPayment in siteContext.checkoutSettings.externalPaymentWorkflowSettings %}
+							{% if externalPayment.isEnabled %}
+								<div class="mz-carttable-thirdpartypayment margin-bottom-30" >
+									{% if externalPayment.name == "PayWithAmazon" %}
+									<div id="AmazonPayButton"></div>
+									{% endif %}
+									{% if externalPayment.name == "VisaCheckout" %}
+									<img alt="Visa Checkout" class="v-button" role="button" src="{{pageContext.visaCheckoutButtonUrl}}"/>
+									{%endif%}
+									{% if externalPayment.name == "PayPalExpress2" %}
+									<img id="btn_xpressPaypal" class="p-button" alt="Check out with PayPal" role="button" src="/resources/images/checkout-logo-medium.png" width="170px" height="32px" />
+									{%endif%}
+									<p>{{labels.paypalMessage}}</p>
+								</div>
+									
+							{%endif%}
+						{%endfor%}
+						</div>
+					{% endif %}
+					{%endwith%}
+				{% endif %}
+			</form>
+	<!-- Show empty cart if model is empty -->
+	<!--
+	 {# {% else %}
+			<div class="cart-div">Your cart is empty.</div>
+			<div class="cart-div">
+	            <a href="/" class="btn">
+	            	<div class="mz-button font-large button_primary"> Continue Shopping</div>
+	            </a>
+	        </div>
+	{% endif %} #}
+-->
+	<!-- Widget code -->
+	<div class="row" style="padding-top: 10px;">
+		<div class="col-xs-12">
+			{% dropzone "cart-advert" scope="page" %}
+		</div>
+	</div>
+</div>
+{% endblock body-content %}

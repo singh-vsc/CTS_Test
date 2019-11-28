@@ -1,0 +1,127 @@
+{% if not model.showThanks %}
+<div class="mz-l-container" id="contact-container">
+	<div class="mz-contactus-title">
+		<h1 class="mz-pagetitle">{{ labels.contactus }}</h1>
+	</div>
+    <div class="col-md-6">
+        <p class="mz-contactus-subtitle">
+            <span class="mz-contactus-subtitle-text">Live Chat </span>
+            <div class="livechat-wrapper">
+                <a href="/live-chat" class="livechat-online livechat-button" style="display: none; "><img src="//cdn-tp3.mozu.com/24484-m1/cms/files/3cf62821-fd2e-4a3c-967b-10513d2ed506" alt="Speak to a customer service rep right now, click here to open a live chat popup"/></a>
+                <a href="#" class="livechat-off" style="display: none;">Live Chat Available Between 9am and 6pm Eastern.</a>
+            </div>
+        </p>
+    	<p class="mz-contactus-subtitle">
+            <span class="mz-contactus-subtitle-text">To Contact Us By Phone, Please Call Us at 1-877-463-1549. </span>
+        </p>
+        <p class="mz-contactus-subtitle">
+    		<span class="mz-contactus-subtitle-text">{{ labels.contactusByEmail }}:</span>
+    		<span class="mz-indicates-required-text pull-right text-right"><span class="is-required">* </span>{{ labels.requiredField }}</span>
+    	</p>
+        <form name="mainForm" method="post" id="mainForm">            
+            <div class="mz-l-formfieldgroup-row">
+                <div class="mz-l-formfieldgroup-cell">
+                    <input type="hidden" name="orgid" value="{{themeSettings.contactFormorgid}}" class="form-control">
+                </div>
+            </div>
+            <div class="mz-l-formfieldgroup-row">
+                <div class="mz-l-formfieldgroup-cell">
+                    <input type="hidden" name="retURL" value="http://" class="form-control">
+                </div>
+            </div>
+        	<div class="mz-l-formfieldgroup-row">
+                <div class="mz-l-formfieldgroup-cell">
+                    <label for="name">{{ labels.labelContactname }}</label>
+                </div>
+                <div class="mz-l-formfieldgroup-cell">
+                    <input type="text" id="name" name="name" data-mz-value="name" placeholder="{{ labels.labelContactname }}" maxlength="{{themeSettings.fullNameLength}}" size="20" class="form-control">
+                </div>
+            </div>
+            <div class="mz-l-formfieldgroup-row">
+                <div class="mz-l-formfieldgroup-cell">
+                    <label for="phone">{{ labels.labelphoneNum }}<span class="is-required"> *</span></label>
+                </div>
+                <div class="mz-l-formfieldgroup-cell">
+                    <input type="text" id="phone" name="phone" data-mz-value="phone" placeholder="{{ labels.labelphoneNum }}" maxlength="{{themeSettings.phoneNumberMaxLength}}" size="20" class="form-control">
+                    <span class="mz-validationmessage" data-mz-validationmessage-for="phone"></span>
+                </div>
+            </div>
+            <div class="mz-l-formfieldgroup-row">
+                <div class="mz-l-formfieldgroup-cell">
+                    <label for="email">{{ labels.email }}<span class="is-required"> *</span></label>
+                </div>
+                <div class="mz-l-formfieldgroup-cell">
+                    <input type="email" id="email" name="email" data-mz-value="email" placeholder="{{ labels.emailAddress }}" maxlength="{{themeSettings.emailLength}}" size="20" class="form-control">
+                    <span class="mz-validationmessage" data-mz-validationmessage-for="email"></span> 
+                </div>
+            </div>
+            <div class="mz-l-formfieldgroup-row">
+                <div class="mz-l-formfieldgroup-cell">
+                    <label for="subject">{{ labels.labelMyComments }}<span class="is-required"> *</span></label>
+                </div>
+                <div class="mz-l-formfieldgroup-cell">
+                    <select class="form-control" id="subject" name="subject" data-mz-value="subject">
+                        <option value="" selected>{{labels.selectTopic}}</option>
+                        {% for val in model.selectTopic %} 
+                            <option value="{{ val.question }}">{{ val.question }}</option>
+                        {% endfor %}
+                    </select>
+                    <span class="mz-validationmessage" data-mz-validationmessage-for="subject"></span>
+                </div>
+        	</div>
+        	<div class="mz-l-formfieldgroup-row margin-bottom-15">
+                <div class="mz-l-formfieldgroup-cell">
+                    <label for="description">{{ labels.contactUsMessage }}<span class="is-required"> *</span></label>
+                </div>
+                <div class="mz-l-formfieldgroup-cell">
+                    <textarea rows="5" cols="50" id="description" name="description" data-mz-value="description" maxlength="{{ themeSettings.contactUsMessageLength }}" class="form-control"></textarea>
+                    <span class="mz-validationmessage" data-mz-validationmessage-for="description"></span>
+                </div>
+            </div>
+            <div class="mz-l-formfieldgroup-row">
+                <div class="mz-l-formfieldgroup-cell">
+                    <input type="hidden" id="00Nj000000Bfrpz" name="00Nj000000Bfrpz" value="Christmas Tree Shops" class="form-control"/>
+                </div>
+            </div>
+            {% if themeSettings.enableCaptcha && themeSettings.captchaSiteKey!="" %}
+            <div class="mz-captcha-image mz-l-formfieldgroup-row margin-bottom-15">
+                <p><span class="is-required">* </span>{{ labels.captchaTitle }}</p>
+                <div id="recaptcha_widget_div"></div>
+                <span class="mz-validationmessage" data-mz-validationmessage-for="recaptcha_widget_div"></span>
+                <script type="text/javascript">
+                    var onloadCallback = function() {
+                        grecaptcha.render('recaptcha_widget_div', {
+                            'sitekey' : '{{themeSettings.captchaSiteKey}}',
+                            'callback' : function(response) {
+                                window.recaptchaResponse = response;
+                            }
+                        });
+                    };
+                </script>
+                <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async></script>
+            </div>
+            {% endif %}
+            <div class="mz-l-formfieldgroup-row margin-bottom-30">
+                <div class="mz-l-formfieldgroup-cell text-left">
+                    <button class="mz-button button_primary mz-button-large" type="submit" data-mz-action="contactUsSubmit">{{ labels.send }}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% else %}
+<div id="thanks-msg">
+        <div class="mz-contactus-title">
+            <h1 class="mz-pagetitle">{{ labels.customerService }}</h1>
+        </div>
+        <div class="msg-align">
+            <p>
+                {{labels.contactThankYou|safe}}
+            </p>
+            <div class="continue-align">
+                <button class="button_primary" onclick="window.location.href='/';">{{labels.continue}}</button>
+            </div>
+        </div>
+</div>
+{% endif %}
+

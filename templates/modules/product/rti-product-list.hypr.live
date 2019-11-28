@@ -1,0 +1,63 @@
+{% if model.items %}
+    <div class="mz-productlist mz-prev-margin {% block module-classes %}{% endblock module-classes %}">
+        {% for prod in model.items %}
+        	{% if forloop.first && model.items.length >= 1%} 
+    			<div class="bxslider {% block list-classes %}{% endblock list-classes %}">
+    		{% endif %}
+            <div class="product-code col-sm-3 col-xs-6 mz-reset-padding-left" data-mz-product="{{ prod.productCode }}">	
+		        {% block product-image %}
+		        <a href="{% make_url "product" prod %}"  data-baynote-slot="{{prod.slot}}"  data-baynote-widget="{{prod.widgetId}}" data-baynote-pid="{{prod.productCode}}" data-baynote-href="{{prod.href}}">
+		            {% if prod.mainImage.imageUrl %}
+		                <img class="image" src="{% make_url "image" prod.mainImage with maxWidth=themeSettings.pdpRTIMaxWidth as_parameter  %}" {% if prod.mainImage.altText %}alt="{{ prod.mainImage.altText }}"{% endif %} onerror="replaceImage(this);">
+		            {% else %}
+		                {% include 'modules/product/product-no-image' %}
+		            {% endif %}
+		        </a> 
+		        {% endblock product-image %} 
+		        <p class="mz-related-product-brand-name">{{ prod|get_product_attribute_value('tenant~Brands')|default('')|safe }}</p>
+		        <div class="mz-related-products-title-container">
+                    <a class="mz-productlisting-title" href="{% make_url "product" prod %} "  data-baynote-slot="{{prod.slot}}"  data-baynote-widget="{{prod.widgetId}}" data-baynote-pid="{{prod.productCode}}" data-baynote-href="{{prod.href}}">{{prod.content.productName|safe}}</a>
+                    <div class="mz-productlisting-title mz-productlisting-price">
+                         <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="mz-productdetail-price mz-l-stack-section">
+                         {% include "modules/product/price-stack" with model=prod %}
+                        </div>
+                    </div>
+                </div>
+                {% if prod.properties and prod|get_product_attribute_value("tenant~isExclusive") %}
+                    <p class="exclusive-text">{{ labels.exclusive }}</p>
+                {% endif %}
+                </div>
+    		{% if forloop.last && model.items.length >= 1 %} 
+    		</div>
+    		{% endif %}
+        {% endfor %}
+    </div>
+{% comment %}
+    {% with model.items|first as currentBN %}{% if model.bnData and model.bnData!='' %}
+    <script type="text/javascript">
+    var BNData = BNData || '';
+    var BNWidgetId = BNWidgetId || '';
+    if (BNData) {
+        if ( BNData.widgetCount ) {
+            BNData.widgetCount += 1;
+            BNData.widget['{{currentBN.widgetId}}'] = '{{model.bnData}}'
+        }
+        else {
+            var oldBNData = BNData;
+            BNData = {
+                widgetCount: 2,
+                widget: {
+                    '{{currentBN.widgetId}}': '{{model.bnData}}',
+                }
+            };
+            BNData.widget[BNWidgetId] = oldBNData;
+        }
+    }
+    else {
+        BNData = '{{model.bnData}}';
+        BNWidgetId = '{{currentBN.widgetId}}'
+    }
+    </script>
+    {% endif %}{% endwith %}
+{% endif %}
+{% endcomment %}

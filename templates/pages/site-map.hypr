@@ -1,0 +1,60 @@
+{% extends "page" %}
+{% block main-container-class %}container{% endblock main-container-class %}
+
+{% block title-tag-content %}{% firstof pageContext.metaTitle labels.signUp %} - {% parent %}{% endblock title-tag-content %}
+
+{% block body-tag-classes %} mz-catalog-request {% endblock body-tag-classes %}
+
+
+{% block body-content %}
+    {% block breadcrumbs %}{% endblock breadcrumbs %}
+    <div class="mz-l-container">
+        <h1 class="mz-pagetitle">Site Map</h1>
+        <div class="row">
+            <div class="col-xs-12">
+                <h3><a href="/">{{labels.home}}</a></h3>
+            </div>
+        </div>
+        {% for link in navigation.tree %}
+            {% if not link.isHidden and not link.isEmpty %}
+                {% if link.name|split("~")|length==1 or link.nodeType=="category" %}
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3><a href="{{link.url}}">{{link.name|replace(themeSettings.columnBreaker,"")|replace("_"," ")|safe}}</a></h3>
+                        </div>
+                        {% for sublink in link.items %}
+                            {% if not sublink.isHidden and not sublink.isEmpty %}
+                                {% if sublink.name|split("~")|length==1 or sublink.nodeType=="category" %}
+                                    <div class="col-xs-6 col-sm-4 single-sitemap-item-wrapper">
+                                        <h4><a href="{{sublink.url}}">{{sublink.name|replace(themeSettings.columnBreaker,"")|replace("_"," ")|safe}}</a></h4>
+                                        {% for subsublink in sublink.items %}
+                                            {% if not subsublink.isHidden and not subsublink.isEmpty %}
+                                                {% if subsublink.name|split("~")|length==1 or subsublink.nodeType=="category" %}    
+                                                    <div><a href="{{subsublink.url}}">{{subsublink.name|replace(themeSettings.columnBreaker,"")|replace("_"," ")|safe}}</a></div>
+                                                {% endif %}    
+                                            {% endif %}
+                                        {% endfor %}    
+                                    </div>
+                                    {% endif %}
+                                {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        <div class="row">
+            <div class="col-xs-12">
+                <h3><a href="/myaccount">{{labels.myAccount}}</a></h3>
+            </div>                
+            <div class="col-xs-6 col-sm-4 single-sitemap-item-wrapper">
+                <h4><a href="/myaccount#settings">{{ labels.myInformation }}</a></h4>  
+            </div>
+            <div class="col-xs-6 col-sm-4 single-sitemap-item-wrapper">
+                <h4><a href="/myaccount#orderhistory">{{ labels.orderHistory }}</a></h4>    
+            </div>
+            <div class="col-xs-6 col-sm-4 single-sitemap-item-wrapper">
+                <h4><a href="/myaccount#addressbook">{{ labels.addressBook }}</a></h4>      
+            </div>                
+        </div>
+    </div>
+{% endblock body-content %}

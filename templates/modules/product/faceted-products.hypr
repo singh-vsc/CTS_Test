@@ -1,0 +1,75 @@
+﻿{% if not pageContext.query.partial %}
+<script type="text/json" id="data-mz-preload-facetedproducts">
+{
+    "items" : {% json model.items %},
+	"facets": {% json model.facets %}, 
+	"currentPage": {{ model.currentPage }},
+	"firstIndex": {{ model.firstIndex }},
+	"hasNextPage": {{ model.hasNextPage|lower }},
+	"hasPreviousPage": {{ model.hasPreviousPage|lower }},
+	"lastIndex": {{ model.lastIndex }},
+	"middlePageNumbers": {% json model.middlePageNumbers %},
+	"pageCount": {{ model.pageCount }},
+	"pageSize": {{ model.pageSize }},
+	"startIndex": {{ model.startIndex }},
+	"totalCount": {{ model.totalCount }},
+	"currentSort": "{{ model.currentSort }}"
+}
+</script>
+{% endif %}
+
+{% dropzone "category-page-top" scope="page" %}
+{% dropzone "category-page-top2" scope="template" %}
+
+<div class="mz-l-paginatedlist pull-right{% if model.facets %} col-xs-12 col-sm-8 col-md-9{%else%} col-xs-12{% endif %}">
+    <div class="title-sort-breadcrumb-wrapper">
+        {% block breadcrumbs %}
+        {% if themeSettings.showBreadcrumbs %}
+        {% include "modules/breadcrumbs" %}
+        {% endif %}
+        {% endblock breadcrumbs %}
+        
+        <div id="products-wrapper" class="mz-l-paginatedlist-header">
+            <div class="title-sortby-wrappper">
+                <h1 class="mz-pagetitle">{{ pageName|replace("~", ""|safe }}</h1>
+                <div data-mz-pagesort class="mz-sortby">
+                    {% include "modules/common/page-sort" %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% if model.facets %}
+<div data-mz-facets class="mz-l-sidebar col-xs-12 col-sm-4 col-md-3">
+    {% include "modules/product/faceting-form" %}
+</div>
+{% endif %}
+<div class="mz-l-paginatedlist pull-right{% if model.facets %} col-xs-12 col-sm-8 col-md-9{%else%} col-xs-12{% endif %}">
+    <div>
+        <div class="mz-l-paginatedlist-header">
+            <div data-mz-pageview class="mz-pageview">
+                {% include "modules/common/page-view" %}
+            </div>            
+            <div data-mz-pagenumbers class="mz-pagenumbers">
+                {% include "modules/common/page-numbers" %}
+            </div>
+            <div data-mz-pagingcontrols class="mz-pagingcontrols">
+                {% include "modules/common/paging-controls" %}
+            </div>
+        </div>
+        <div data-mz-productlist class="mz-l-paginatedlist-list">
+            {% include "modules/product/product-list-tiled" %}
+        </div>
+        <div class="mz-l-paginatedlist-footer">
+            <div class="back-to-top">
+                <button class="btn btn-default mz-back-to-top-button">{{ labels.backToTop }}</button>
+            </div>
+            <div data-mz-pagenumbers class="mz-pagenumbers">
+                {% include "modules/common/page-numbers" %}
+            </div>
+            <div data-mz-pagingcontrols class="mz-pagingcontrols">
+                {% include "modules/common/paging-controls" %}
+            </div>
+        </div>
+    </div>
+</div>

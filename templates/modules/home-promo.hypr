@@ -1,0 +1,14 @@
+{% if themeSettings.showPromoDropZone %}
+<div id="home-promo-wrapper" class="container-fluid">
+	<div class="row" id="home-promo-below-navigation">
+		<div class="col-xs-12">
+			<div class="ml-header-global-include-close">
+				<a href="javascript:void();" aria-label="{{labels.close}}" id="homePromoCloseBtn" class="glyphicon glyphicon-remove ml-icon-close no-print" data-toggle="collapse" data-target=".ml-global-include-header">
+					<span class="hide">Close</span>
+				</a>
+			</div>
+			{% dropzone "home-promo-below-navigation" scope="site" %}
+		</div>
+	</div>
+</div>
+{% endif %}

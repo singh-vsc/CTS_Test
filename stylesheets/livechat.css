@@ -1,0 +1,422 @@
+/**
+ * Radial LiveChat Core CSS
+ * @version 1.2
+ * @author Justin Szczurowski <szczurowskij@radial.com>
+ */
+
+/* ==================== Common ==================== */
+.fullscreen {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.livechat-close-btn {
+  background-color: #ddd;
+  border-radius: 32px;
+  color: #333;
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  z-index: 100;
+  font-size: 2em;
+  min-width: 28px;
+  height: 28px;
+  line-height: 22px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.livechat-close-btn:before {
+  content: 'x';
+  font-size: 0.75em;
+  position: absolute;
+  top: 2px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.livechat-text {
+  font-size: 24px;
+  line-height: 1;
+  margin: 15px 0;
+  float: none;
+}
+
+.livechat-subtext {
+  font-size: 22px;
+  line-height: 1;
+  margin: 15px 0;
+  float: none;
+}
+
+/* ==================== Pre-Chat ==================== */
+.livechat-prechat {
+  padding: 0 15px 15px;
+}
+
+.livechat-prechat-container {
+  max-width: 640px;
+  margin: auto auto;
+}
+
+.is-existing-case {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  top: 5px;
+  left: 5px;
+  cursor: pointer;
+}
+
+.livechat-company-logo-container {
+  position: relative;
+}
+
+.livechat-company-logo {
+  border: none;
+  margin-top: 15px;
+  max-height: 75px;
+}
+
+input.livechat-field-error {
+  border-color: #faa;
+}
+
+div.livechat-field-error {
+  padding: 5px;
+  background: #fee;
+  border: 1px solid #faa;
+  color: #a44;
+  border-radius: 4px;
+  margin-top: 3px;
+}
+
+.livechat-icon-error:before {
+  content: '!';
+  display: inline-block;
+  min-width: 10px;
+  margin-right: 5px;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  background-color: #c44;
+  border-radius: 10px;
+}
+
+.livechat-prechat-form-container {
+  padding: 15px;
+}
+
+.livechat-prechat-submit-btn,
+.livechat-prechat-submit-btn:focus {
+  background-color: #38e;
+  color: #fff;
+  padding: 10px;
+  font-size: 24px;
+  -webkit-transition: all 0.2s ease-in-out 0s;
+  -moz-transition: all 0.2s ease-in-out 0s;
+  -o-transition: all 0.2s ease-in-out 0s;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+.livechat-prechat-submit-btn:hover {
+  background-color: #49e;
+  color: #fff;
+}
+
+/* ==================== In-Chat ==================== */
+
+.livechat-inchat {
+  padding: 0 15px;
+  overflow: hidden;
+}
+
+.livechat-inchat-buttons {
+  position: absolute;
+  top: -62px;
+  right: 15px;
+}
+
+.livechat-inchat-container {
+  position: relative;
+  max-width: 640px;
+  max-height: 500px;
+  margin: auto auto;
+}
+
+.livechat-inchat-buttons-container {
+  position: relative;
+}
+
+.livechat-loading-container {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin-top: -35px; /* 50% of .livechat-loading-image Height */
+}
+
+.livechat-loading-text {
+  font-size: 2em;
+  color: #222;
+  margin: -2em 10px 0;
+}
+
+.livechat-loading-image {
+
+}
+
+.livechat-loading-modal {
+  background: #eee;
+  text-align: center;
+  z-index: 500;
+}
+
+#liveAgentChatLog {
+  position: relative;
+  overflow-y: auto;
+  border: none;
+  width: 100%;
+  height: 200px;
+  padding: 10px 15px;
+}
+
+#liveAgentChatLogText .name {
+}
+
+.liveAgentChatInput {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #bababa;
+  font-size: 1.2em;
+  padding: 10px;
+  margin: 0 0;
+}
+
+.liveAgentChatWrap {
+  background: #fff;
+}
+
+.liveAgentChatWaiting {
+  margin-top: 15px;
+}
+
+.liveAgentChatButtons {
+  margin-bottom: 0;
+}
+
+.liveAgentSaveButton,
+.liveAgentEndButton {
+  background-color: #ededed;
+  color: #999;
+  font-size: 1.2em;
+  border: 1px solid #999;
+  text-align: right;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.liveAgentEndButton {
+  margin-left: 10px;
+}
+
+.liveAgentAlert,
+#liveAgentMessageStatus {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10001;
+  background: #000;
+  padding: 15px;
+  opacity: 0.9;
+}
+
+.liveAgentAlert > div,
+#liveAgentMessageStatus > div {
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  right: 30px;
+  background: #fee;
+  padding: 15px;
+  border-radius: 3px;
+  border: 10px solid #fdd;
+  max-width: 600px;
+  margin: -52px auto 0 auto;
+  text-align: center;
+}
+
+.liveAgentStateEnded .livechat-close-btn {
+  top: 0;
+  right: 0;
+}
+
+.liveAgentStateEnded .liveAgentSaveButton {
+  margin-right: 45px;
+}
+
+.livechat-send-btn,
+.livechat-send-btn:focus {
+  position: relative;
+  background-color: #38e;
+  border-radius: 0 4px 4px 0;
+  color: #fff;
+  font-size: 1.5em;
+  width: 100%;
+  height: 45px;
+  min-width: 85px;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+.livechat-send-btn:hover {
+  color: #fff;
+  background-color: #49e;
+}
+
+.livechat-client-input {
+  display: inline-block;
+  width: 100%;
+  padding: 5px 0;
+}
+
+.livechat-client-input span {
+  display: inline;
+}
+
+.livechat-client-input-left {
+  padding: 0;
+}
+
+.livechat-client-input-right {
+  padding: 0;
+}
+
+.avatar {
+  position: absolute;
+  left: 10px;
+  bottom: -20px;
+  font-size: 12px;
+  color: #888;
+}
+
+.client,
+.operator,
+.system {
+  display: block;
+  margin-bottom: 23px;
+  border: none;
+  border-radius: 5px;
+  clear: both;
+  float: left;
+  margin: 5px 5px 15px;
+  padding: 8px 20px;
+  position: relative;
+  width: auto;
+  max-width: 100%;
+  word-wrap: break-word;
+  font-size: 1.2em;
+}
+
+.timestamp {
+  display: block;
+  clear: both;
+  margin: 0px 5px 10px;
+  font-size: 0.75em;
+  color: #929A9D;
+}
+
+.operator + .timestamp {
+  margin-top: -10px;
+  float: left; 
+}
+
+.operator {
+  background-color: #ededed;
+  color: #333;
+}
+
+.operator:before,
+.operator:after,
+.client:before,
+.client:after {
+  border-radius: 20px / 10px;
+  content: '';
+  display: block;
+  position: absolute;
+}
+
+.operator:before,
+.client:before {
+  border: 1px solid transparent;
+  bottom: 0;
+  z-index: -2;
+}
+
+.operator:after,
+.client:after {
+  border: 8px solid transparent;
+  bottom: 1px;
+}
+
+.operator:before {
+  left: -7px;
+}
+
+.operator:after {
+  border-bottom-color: #ededed;
+  left: -7px;
+}
+
+.client + .timestamp {
+  margin-top: -10px;
+  margin-right: 10px;
+  float: right; 
+}
+
+.client {
+  background-color: #009fdf;
+  color: #fff;
+  margin-right: 10px;
+  float: right;
+}
+
+.client:before {
+  right: -7px;
+}
+
+.client:after {
+  border-bottom-color: #009fdf;
+  right: -7px;
+}
+
+.system {
+  background-color: #cef;
+  color: #333;
+}
+
+.system em:before {
+  content: 'i';
+  display: inline-block;
+  background: #fff;
+  border: 1px solid #acd;
+  border-radius: 20px;
+  color: #00a;
+  font: normal bold 0.9em serif;
+  margin-right: 5px;
+  padding: 2px 10px;
+}

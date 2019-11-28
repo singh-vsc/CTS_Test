@@ -1,0 +1,9 @@
+{% if model %}
+	{% with model|first as entityModel %}
+		{% if entityModel and entityModel.SEOText!='' %}
+			<div class="seo-text col-xs-12">
+				<p>{{entityModel.SEOText}}</p>
+			</div>
+		{% endif %}
+	{% endwith %}
+{% endif %}

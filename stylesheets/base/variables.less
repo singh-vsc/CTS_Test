@@ -1,0 +1,72 @@
+﻿@fontFamily: Arial, Verdana, Geneva, Helvetica, sans-serif;
+@fontSize: 14px;
+@fontSizeSmall: @fontSize - 2px;
+@fontSizeLarger: @fontSize + 2px;
+@fontSizeLarge: @fontSize + 6px;
+@storeBrandingFontSize: 36px;
+
+@textColor: #333333;
+@linkColor: @textColor;
+@linkHoverColor: @textColor;
+@linkVisitedColor: @textColor;
+@errorText: #b94a48;
+@errorBackground: #FFFFFF;
+@warningText: @textColor;
+@warningBackground: #ffefcf;
+@successText: @textColor;
+@successBackground: #eef2ee;
+
+@availableText: #237e0e;
+@unavailableText: #ae1231;
+
+@bodyBackgroundColor: {{ themeSettings.bodyBackgroundColor }};
+
+@errorBorder: darken(spin(@errorBackground, -10), 3%);
+@successBorder: darken(spin(@successBackground, -10), 3%);
+@warningBorder: darken(spin(@warningBackground, -10), 3%);
+
+@errorIcon: "../resources/images/error-exclamation.png";
+@columnWidth-2col: 435px;
+@gutter: {{themeSettings.gutterWidth}};
+@inputBorder: #E1E1E1;
+
+@defaultTileHeight: 250px;
+@defaultTileWidth: 250px;
+@productTileHeight: 360px;
+@productTileWidth: @defaultTileWidth;
+@addressTileHeight: 220px;
+@addressTileWidth: @defaultTileWidth;
+@productImagesContainerWidth: {{ themeSettings.productImagesContainerWidth }}px;
+@orderDetailWidth: 200px;
+@itemListingThumbSize: {{ themeSettings.itemListingThumbSize }};
+@itemListingThumbSizePX: {{ themeSettings.itemListingThumbSize }}px;
+@productListingThumbSize: {{ themeSettings.listProductThumbSize }}px;
+
+/* Colors */
+@primaryColor: #122548; /*#002C50; */
+@secondaryColor: #249dc8; /*#0EB1C9///249DC8*/
+@navBorder: #48708a;
+@colorWhite: #FFFFFF;
+@colorGray: #333333;
+@colorMediumGray: #666666;
+@colorLighterGray: #9E9E9E;
+@colorLightGray: #E1E1E1;
+@colorOrange: #FFB540;
+@colorGreen: #7AB332; /* 7AB332///639144 */
+@defaultGutter: @gutter;
+@mobileRowHeight: 50px;
+@colorDarkGray: #393939;
+@facetColorBox: 50px;
+@complimentaryOrange: #ffb540;
+@complimentaryOrangeAction: #D57B00;
+
+@gray-dark: lighten(#000, 20%);   // #333
+@white: #ffffff;
+
+@black:  @colorGray;
+@mystic-orangered: @colorOrange;
+@body-bg: @colorWhite;
+@masala: @colorGray;
+@table-bg-accent: @colorLightGray;
+@dove-gray: @colorMediumGray;
+@yellow: @colorOrange;

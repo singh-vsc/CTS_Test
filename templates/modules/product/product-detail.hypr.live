@@ -1,0 +1,169 @@
+{% include "modules/product/product-promo-message" %}
+<div class="mz-productdetail-shortdesc mz-l-stack-section">
+  <span itemscope itemprop="description">{{ model.content.productShortDescription|safe }}</span>
+</div>
+{% if model.stockInfo %}
+<div class="stock-info">{{ labels.upcInStock }}
+  <span class="stock-price">{{ model.stockInfo }}</span>
+</div>
+{% endif %}
+{% require_script "modules/product/browser-checker" %}
+<div class="col-xs-12 mz-reset-padding-left">
+    <div class="col-xs-12 email-popup" style="display: none">
+      {% dropzone "email-notification" scope="template" %}
+    </div>
+</div>
+{% if model.options and model.options.length > 0 and model.productType != themeSettings.familyProductType %}
+<div class="mz-productdetail-options mz-l-stack-section">
+  {% include "modules/product/product-options" %}
+</div>
+{% endif %}
+{% include "modules/product/product-validation" %}
+<!-- div to display message in case inventory < minimumQuantityForInStockQuantityMessage and > 0 -->
+{% if model.inventoryInfo.onlineStockAvailable > 0 and model.inventoryInfo.onlineStockAvailable <= model.minimumQuantityForInStockQuantityMessage %}
+<div class="col-xs-12 col-sm-12">
+    <div class="mz-validationmessage out-of-stock-message" data-mz-validationmessage-for="quantity-only">
+      *Only {{model.inventoryInfo.onlineStockAvailable}} left in stock.
+    </div>
+</div>
+{% endif %}
+<section class="mz-l-stack-section mz-productdetail-conversion row">
+  {% if model.productType != themeSettings.familyProductType %}
+    <div class="mz-productdetail-conversion-controls col-xs-4 col-sm-4">
+      <!-- Commenting out cart/checkout entry point for the time being
+       {# <label class="mz-qty-label text-uppercase" for="mz_pdp_qty">{{ labels.qty }}</label>
+     <div class="qty-block">
+        <div class="qty-counter" id="minus" data-mz-qty-minus role="button"><i class="fa fa-minus"  aria-hidden="true"></i></div>
+        <input id="mz_pdp_qty" class="mz-productdetail-qty text-center" type="text" value="{{model.quantity}}" readonly data-mz-value="{{model.quantity}}" title="Quantity" />
+        <div class="qty-counter" id="plus" data-mz-qty-plus role="button"><i class="fa fa-plus" aria-hidden="true"></i></div>
+      </div>  #}    
+    -->
+    </div>
+    <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="mz-productdetail-price mz-l-stack-section pull-right col-xs-8 col-sm-8 text-right">
+      {% include "modules/product/price-stack" %}
+    </div>
+    <div class="mz-validationmessage mz-msg-max-allowed" data-mz-validationmessage-for="quantity" style="visibility: hidden;"></div>
+  {% endif %}
+    <div class="mz-productdetail-conversion-buttons col-xs-12 hide">
+      <!-- Commenting out cart/checkout entry point for the time being
+      {# <div class="col-xs-12 add-to-cart-container">
+        <button id="add-to-cart" class="mz-productdetail-addtocart font-large button_primary pull-right{% if not model.purchasableState.isPurchasable %} button_disabled{% endif %}" data-mz-action="addToCart" >
+            {{ labels.addToCart }}
+        </button>
+      </div> #}
+      -->
+
+
+<!-- 
+{#       <div class="check-store-button">    
+          <a href="/store-locator">
+            <button id="add-to-cart" class=" font-large button_primary pull-right" >
+            Find A Store
+        </button></a>
+      </div> #} -->
+    </div>
+    {% include "modules/product/product-delivery-surcharge" %}
+</section>
+<!-- Delivery surcharge modal -->
+<div class="del-surcharge-popup modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h3 class="modal-title">{{themeSettings.deliverySurchargeHeader}}</h3>
+      </div>
+      <div class="close-modal">
+          <span class="mz-close-icon" aria-hidden="true" data-dismiss="modal"></span>  
+      </div>
+      <div class="modal-body">
+         {{themeSettings.deliverySurchargeContent}}
+      </div>
+  </div>
+</div>
+</div>
+<!-- Delivery surcharge modal end-->
+{% if model.productUsage == 'Bundle' %}
+<div class="mz-productdetail-bundleitems mz-l-stack-section">
+  <h4 class="mz-l-stack-sectiontitle">{{ labels.bundleContents }}</h4>
+  <dl class="mz-propertylist mz-propertylist-justified">
+  {% for prod in model.bundledProducts %}
+	<dt>
+	  {% if prod.quantity != 1 %}{{ prod.quantity }} x {% endif %}
+	  {{ prod.content.productName }}
+	</dt>
+	<dd>
+	  {{ prod.content.productShortDescription|safe }}
+    </dd>
+  {% endfor %}
+  </dl>
+</div>
+{% endif %}
+
+{% if model.properties and themeSettings.showProductDetailProperties %}
+<div class="mz-productdetail-properties mz-l-stack-section">
+  <h4 class="mz-l-stack-sectiontitle">{{ labels.properties }}</h4>
+  <dl class="mz-propertylist mz-propertylist-justified">
+    {% for property in model.properties %}
+    {% if property.values and not property.isHidden %}
+    <dt>{{property.attributeDetail.name}}</dt>
+    {% for v in property.values %}
+    <dd>{% if v.stringValue %}
+    {% if v.stringValue == 'CHR(36)' %}
+      $
+    {% else %}
+      {% if v.stringValue == 'CHR(38)' %}
+      &amp;
+      {% else %}
+        {% if v.stringValue == 'CHR(64)' %}
+        @
+        {% else %}
+          {% if v.stringValue %}
+              {{ v.stringValue }}
+          {% else %}
+              {{ v.value|default(v.shopperEnteredValue) }}
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    {% endif %}{% else %}{{v.value}}{% endif %}</dd>
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+  </dl>
+</div>
+{% endif %}
+
+{% if themeSettings.showProductDetailMeasurements and model.bundledProducts %}
+<div class="mz-productdetail-measurements mz-l-stack-section">
+  <h4 class="mz-l-stack-sectiontitle">{{ labels.measurements }}</h4>
+  
+  {% for product in model.bundledProducts %}
+    {% if product.measurements %}
+    <div class="mz-productbundle-measurements-product">
+      <span class="mz-productbundle-measurements-productname">{{ product.content.productName }}</span>
+      <span> x {{ product.quantity }}</span>
+    </div>
+    <dl class="mz-propertylist mz-propertylist-justified mz-propertylist-inline">
+        <dt>{{ labels.weight }}</dt>
+        <dd itemprop="weight" itemscope itemtype="http://schema.org/QuantitativeValue">
+          <span itemprop="value">{{ product.measurements.packageWeight.value }}</span> <span itemprop="unitCode">{{ product.measurements.packageWeight.unit }}</span>
+		</dd>
+
+        <dt>{{ labels.length }}</dt>
+        <dd itemprop="length" itemscope itemtype="http://schema.org/QuantitativeValue">
+          <span itemprop="value">{{ product.measurements.packageLength.value }}</span> <span itemprop="unitCode">{{ product.measurements.packageLength.unit }}</span>
+		</dd>
+
+        <dt>{{ labels.width }}</dt>
+        <dd itemprop="width" itemscope itemtype="http://schema.org/QuantitativeValue">
+          <span itemprop="value">{{ product.measurements.packageWidth.value }}</span> <span itemprop="unitCode">{{ product.measurements.packageWidth.unit }}</span>
+		</dd>
+
+        <dt>{{ labels.height }}</dt>
+        <dd itemprop="height" itemscope itemtype="http://schema.org/QuantitativeValue">
+          <span itemprop="value">{{ product.measurements.packageHeight.value }}</span> <span itemprop="unitCode">{{ product.measurements.packageHeight.unit }}</span>
+		</dd>
+
+      </dl>
+    {% endif %}
+  {% endfor %}
+</div>
+{% endif %}

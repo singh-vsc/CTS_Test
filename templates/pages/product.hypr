@@ -1,0 +1,27 @@
+{% extends "page" %}
+{% block title-tag-content %}{% firstof pageContext.metaTitle|replace("'","&rsquo;")|replace('"',"”")|safe model.content.productName|replace("'","&rsquo;")|replace('"',"”")|safe %}  - {% parent %}{% endblock title-tag-content %}
+{% block body-tag-classes %}mz-product{% endblock body-tag-classes %}
+{% block body-content %}
+{% if familyMembers %}
+{% preload_json familyMembers "familyMembers" %}
+{% endif %}
+{% preload_json model "product" %}
+{% block cookie-data %}
+    <script type="text/javascript">
+        var cookieData = {
+            "UserData": {
+                "cookieInput": "cookieaccepted"
+            }
+        };
+    </script> 
+{% endblock cookie-data %}
+<div class="product-wrapper">
+    {% block breadcrumbs %}
+    {% if themeSettings.showBreadcrumbs %}
+    {% include "modules/breadcrumbs" %}
+    {% endif %}
+    {% endblock breadcrumbs %}
+    <div class="clearfix"></div>
+    {% include "modules/product/product-details" %}
+</div>
+{% endblock body-content %}

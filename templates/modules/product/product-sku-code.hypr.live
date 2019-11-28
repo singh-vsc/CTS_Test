@@ -1,0 +1,11 @@
+{% if model.variations.length == 1 %}
+	{% with model.variations|first as singleSku %}
+<div class="mz-productcodes-productcode p-3" itemprop="sku">{{ labels.sku}} # {{ singleSku.productCode }}</div>
+	{% endwith %}
+{% else %}
+{% if model.variationProductCode and model.variationProductCode != '' %}
+<div class="mz-productcodes-productcode p-3" itemprop="sku">{{ labels.sku}} # {{ model.variationProductCode }}</div>
+{% else %}
+<div class="mz-productcodes-productcode p-3" itemprop="sku">{{ labels.item}} # {{ model.productCode }}</div>
+{% endif %}
+{% endif %}

@@ -1,0 +1,9 @@
+{% for catImage in model.content.categoryImages %}
+    <img alt="{{ model.content.name }}" src="{{ catImage.imageUrl }}?max=130"
+        data-srcset="{{ catImage.imageUrl }}?max={width}"
+        data-sizes="auto" data-absurl="false" data-optimumx="2" data-quality="75"
+        data-widths="[160, 320, 375, 414, 480, 640, 800, 960, 1280, 1349, 1536, 1920, 2560, 5500]"
+        class="mz-home-cat-image lazyload" onerror="replaceImage(this);">
+{% endfor %}
+
+

@@ -1,0 +1,235 @@
+﻿{% require_script "modules/login-links" %}
+<nav class="mz-utilitynav" aria-label="{{labels.utilityNav|safe}}">
+
+    <ul class="mz-utilitynav-list{% if not user.isAnonymous %} logged-in{%endif%}">
+        <li class="mz-utilitynav-item hidden-xs nav-stores">
+              <a href="/our-latest-flyer" data-mz-action="stores" data-placement="bottom" class="mz-utilitynav-link">
+                <div style="width: 44%; display: inline-block;">
+                    <img src="//cdn-sb.mozu.com/24495-m1/cms/files/a20aab75-1f68-4f4f-88e8-7337edd6050d" style="width: 100%;" />
+                </div>
+                <div style="width: 54%; display: inline-block;">
+                    <img src="//cdn-sb.mozu.com/24495-m1/cms/files/3decad48-49af-4756-bd4f-5814601d01a4"/>Our Latest Flyer
+                </div>
+            </a> 
+            <a href="/about-us" data-mz-action="stores" data-placement="bottom" class="mz-utilitynav-link"><img src="//cdn-sb.mozu.com/24495-m1/cms/files/1b8711ea-2c03-4783-8524-85fbd368fddb"/>About Us</a>
+            <a href="/store-locator" data-mz-action="stores" data-placement="bottom" class="mz-utilitynav-link"><img src="//cdn-sb.mozu.com/24495-m1/cms/files/9b0162e9-af90-46d0-8ed5-61d68001b302"/>Find a Store</a>
+            <a href="#" data-mz-action="stores" data-placement="bottom" class="mz-utilitynav-link searchBoxTrigger"><img src="//cdn-sb.mozu.com/24495-m1/cms/files/9364cab2-ce19-4aa8-856b-ed8a6572675e"/>Search</a>
+            
+            {% if not user.isAnonymous and user.isAuthenticated %}
+            <a href="#" data-mz-action="my-account" id="my-account" role="button" data-trigger="click" data-toggle="popover" data-content="" class="mz-utilitynav-link login-link-text"><img src="//cdn-sb.mozu.com/24495-m1/cms/files/b9b17884-3658-4fb4-949d-0fbd0c72995a"/>Account</a>
+            
+            <div id="my-account-content" style="display:none;">
+                <div class="my-account-details">
+                    <a href="/myaccount#settings">
+                        <h4>{{ labels.myInformation }}</h4>
+                    </a>
+                        <p>{{ labels.myInformationDetails }}</p>
+                </div>
+                 <div class="my-account-details">
+                    <a href="/myaccount#orderhistory">
+                        <h4>{{ labels.orderHistory }}<span class="hide"> History</span></h4>
+                    </a>
+                        <p>{{ labels.orderHistoryDetails }}</p>
+                </div>
+                {% comment %}
+                <div class="my-account-details">
+                    <a href="/myaccount#account-wishlist">
+                        <h4>{{ labels.wishlist }}</h4>
+                    </a>
+                        <p>{{ labels.wishlistDetails }}</p>
+                </div>
+                {% endcomment %}
+                <div class="my-account-details">
+                    <a href="/myaccount#addressbook">
+                        <h4>{{ labels.addressBook }}</h4>
+                    </a>
+                        <p>{{ labels.addressBookDetails }}</p>
+                </div>
+                <div class="my-account-details">
+                    <a href="/logout">
+                        <h4>{{ labels.logOut }}</h4>
+                    </a>
+                        <p>{{ labels.signOutDetail }}</p>
+                </div>
+            </div>
+            {%else%}
+                <a href="#" data-mz-action="lite-registration" class="mz-utilitynav-link login-link-text"  data-toggle="modal"><img src="//cdn-sb.mozu.com/24495-m1/cms/files/b9b17884-3658-4fb4-949d-0fbd0c72995a"/>Account</a>
+            {% endif %}
+
+        </li>
+        <li class="mz-utilitynav-item hidden-sm hidden-md hidden-lg hidden-xl nav-stores mobileNav">
+                <div class="mz-utilitynav-item navbar-collapse-control visible-xs">
+                    <button data-target="#ml-nav" data-toggle="collapse" class="mz-utilitynav-link">
+                        <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true">
+                            <span class="hide">Menu</span>
+                        </span>
+                    </button>
+                </div>
+
+            <a href="#" data-mz-action="stores" data-placement="bottom" class="mz-utilitynav-link searchBoxTrigger"><img src="//cdn-sb.mozu.com/24495-m1/cms/files/9364cab2-ce19-4aa8-856b-ed8a6572675e"/>Search</a>
+            
+            {% block store-branding %}
+                {% include "modules/page-header/store-branding" %}
+            {% endblock store-branding %}
+            
+            <a href="/our-latest-flyer" data-mz-action="stores" data-placement="bottom" class="mz-utilitynav-link">
+                <div style="width: 100%; display: inline-block;">
+                    <img src="//cdn-sb.mozu.com/24495-m1/cms/files/3decad48-49af-4756-bd4f-5814601d01a4"/>Flyer
+                </div>
+            </a> 
+            <a href="/store-locator" data-mz-action="stores" data-placement="bottom" class="mz-utilitynav-link"><img src="//cdn-sb.mozu.com/24495-m1/cms/files/9b0162e9-af90-46d0-8ed5-61d68001b302"/>Store</a>
+            
+            
+        </li>
+    </ul>  
+
+    <div class="searchBoxWrapper"> 
+        <div class="ml-header-search-wrapper">
+            {% block search-box %}
+                {% include "modules/page-header/search-box" %}
+            {% endblock search-box %}
+        </div>
+        <div class="closeSearchWrapper"><a href="#" id="closeSearch">X</a></div>
+        <div class="clearfix"></div>
+    </div>  
+
+</nav>
+
+<style>
+
+
+     .searchBoxWrapper{
+            position: absolute;
+            top:-11111111px;
+            visibility: hidden;
+            left: 16%;
+            background-color: white;
+            border: none;
+            padding: 0 10px;
+            -webkit-box-shadow: 5px 9px 15px 0px rgba(153,150,153,1);
+            -moz-box-shadow: 5px 9px 15px 0px rgba(153,150,153,1);
+            box-shadow: 5px 9px 15px 0px rgba(153,150,153,1);
+        }
+
+        .closeSearchWrapper{
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            right: 10px;
+            top: 10px;
+        }
+
+        #closeSearch{
+            font-size: 24px;
+            color:#249dc8;
+        }
+        
+        .searchAnimation{
+            -moz-animation: fadein 2s; /* Firefox */
+            -webkit-animation: fadein 2s; /* Safari and Chrome */
+            -o-animation: fadein 2s; /* Opera */
+        }
+        @keyframes fadein {
+            from {
+                opacity:0;
+                left:75%;
+            }
+            to {
+                opacity:1;
+                left:0%;
+            }
+        }
+        @-moz-keyframes fadein { /* Firefox */
+            from {
+                opacity:0;
+                left:75%;
+            }
+            to {
+                opacity:1;
+                left:0%;
+            }
+        }
+        @-webkit-keyframes fadein { /* Safari and Chrome */
+            from {
+                opacity:0;
+                left:75%;
+            }
+            to {
+                opacity:1;
+                left:0%;
+            }
+        }
+        @-o-keyframes fadein { /* Opera */
+            from {
+                opacity:0;
+                left:75%;
+            }
+            to {
+                opacity: 1;
+                left:0%;
+            }
+        }
+    @media (max-width: 768px) {
+        .logo{
+            width: 40%;
+            margin-bottom: 10px;
+        }
+
+        .logo img{
+            width: 100%;
+        }
+
+        .mz-pageheader .ml-header-links-wrapper .mz-utilitynav .mz-utilitynav-list .mz-utilitynav-item{
+            border:none;
+            padding: 15px 10px 15px 0;
+        }
+
+        .mz-pageheader .ml-header-links-wrapper nav .mz-utilitynav-item .glyphicon{
+            color: black;
+        }   
+        
+        .mz-pageheader .ml-header-links-wrapper .mz-utilitynav-item.navbar-collapse-control{
+            width: 40px!important;
+            text-align: center;
+            height: 50px!important;
+        }
+
+        .mz-pageheader .ml-header-links-wrapper .mz-utilitynav .mz-utilitynav-list{
+            width: 100%!important;
+        }
+        
+        .mz-pageheader .ml-header-content{
+            padding: 0;
+        }
+
+        .mz-pageheader .ml-header-links-wrapper{
+            top:10px;
+        }
+
+        #global-header-wrapper{
+            display: none!important;
+        }
+
+        .mobileNav{
+            border-bottom: 1px solid #7cc4de!important;
+        }
+
+        .mz-pageheader .ml-header-content{
+            height: 90px!important;
+        }
+
+        .searchBoxWrapper{
+            position: relative!important;
+            left:0!important;
+        }
+
+        .mz-pageheader .ml-header-content .ml-header-search-wrapper{
+            width: 80%;
+            position: absolute;
+            top: 20px;
+            right: 0;
+            left: 10%;
+        }
+    }   
+</style>

@@ -1,0 +1,97 @@
+<!-- Modal -->
+<div class="modal fade" id="liteRegistrationModal" >
+    <div class="modal-dialog login-modal" role="document">
+        <div class="modal-content">                  
+            <div class="modal-body">
+                <div>
+                    <ul class="nav nav-tabs responsive" id="myTab">
+                        <li class="first-tab active"><div class="arrow"></div><a class="btn login-btn login-tab-btn" data-toggle="tab" href="#login">Login</a></li>
+                        <li class="second-tab"><div class="arrow"></div><a class="btn login-btn" data-toggle="tab" href="#newshopper">New Shopper</a></li>
+                        <li class="second-tab third-tab"><a class="btn login-btn" href="/cart/checkout">Checkout as guest</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="login">
+                            <form name="login" onsubmit="return false" novalidate>
+                            <p class="login-text">Login with an email address and password.</p>
+                            <div class="input-group">
+                                <span class="input-group-addon glyphicon glyphicon-envelope" aria-hidden="true"></span>                         
+                                <label class="hide" for="loginemail">{{labels.emailAddress}}</label>       
+                                <input type="email" class="form-control" data-mz-login-email placeholder="{{ labels.emailAddress }}" id="loginemail">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon glyphicon glyphicon-lock"></span>
+                                <label class="hide" for="password">{{labels.enterPassword}}</label>
+                                <input type="password" class="form-control"  data-mz-login-password id="password" placeholder="{{ labels.password }}">
+                            </div>
+                            <span data-mz-role="popover-message" class="popover-message">
+                                <span class="hide">For Error Message</span>
+                            </span>
+                            <div class="link-button"><a href="/user/forgotpassword">{{ labels.liteRegForgotPasswordLabel }}</a></div>    
+                            <div class="login-btn-row">
+                                <div class="col-xs-2 left-column">
+                                    <div class="link-button"><a href="#" data-dismiss="modal">{{ labels.cancel }}</a></div>
+                                </div>
+                                <div class="col-xs-10 right-column">
+                                    <button class="btn login-btn submit-btn" id="login-submit" type="submit" data-mz-action="doLogin">{{ labels.logIn }}</button> 
+                                    <input type="hidden" class="hidden-return" name="returnUrl" id="returnUrl" value="" />  
+                                    <script type="text/javascript">document.getElementById('returnUrl').value = window.location.href;</script>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 bottom-text"><p class="login-text"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> {{ labels.secureConnectionMessage }}</p></div>
+                            </form>
+                        </div>
+                        <!--Signup start-->    
+                        <div class="tab-pane" id="newshopper">
+                            <p class="login-text">Register</p>
+                            <div class="input-group">
+                                <span class="input-group-addon glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                                <label class="hide" for="newemail">newemail</label>
+                                <input type="email" id="newemail" class="form-control" data-mz-signup-emailaddress placeholder="{{ labels.emailAddress }}">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon glyphicon glyphicon-lock"></span>
+                                <label class="hide" for="newpassword">newpassword</label>
+                                <input type="password" id="newpassword" class="form-control" data-mz-signup-password placeholder="{{ labels.password }}" maxlength="50">
+                            </div> 
+                            <div class="input-group">
+                                <span class="input-group-addon glyphicon glyphicon-lock"></span>
+                                <label class="hide" for="newconfirmpassword">New Confirm Password</label>
+                                <input type="password" id="newconfirmpassword" class="form-control" data-mz-signup-confirmpassword placeholder="{{ labels.reEnterPassword }}">
+                            </div>                                   
+                            <div class="checkbox">
+                                <label for="signupEmailupdates"><input type="checkbox" id="signupEmailupdates" data-mz-signup-emailupdates> {{ labels.signupEmailupdates }}</label>
+                            </div> 
+                            <span data-mz-role="popover-message" class="popover-message"><span class="hide">For Error Message</span></span>
+                            <a href="/safety-security-privacy" class="privacy-policy-link">Privacy Policy</a>
+                            <div class="login-btn-row">
+                                <div class="col-xs-2 left-column">
+                                    <div class="link-button"><a href="#" data-dismiss="modal">{{ labels.cancel }}</a></div>
+                                </div>
+                                <div class="col-xs-10 right-column">                                    
+                                    <button class="btn login-btn" id="signup-submit" type="submit" data-mz-action="doSignup">{{ labels.register }}</button>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 bottom-text"><p class="login-text"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> {{ labels.secureConnectionMessage }}</p></div>
+                        </div>                          
+                    </div>
+                </div>                  
+            </div>
+        </div>
+    </div>
+</div>
+{% if themeSettings.caEnabled %}
+<div class="modal fade" id="ca_location" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="close-modal">
+                <span class="mz-close-icon" aria-hidden="true" id="ca-warning-close"></span>  
+            </div>              
+            <div class="modal-body">
+                <div>
+                {{themeSettings.content_CAWarning}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

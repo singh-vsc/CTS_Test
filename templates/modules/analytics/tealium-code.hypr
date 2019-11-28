@@ -1,0 +1,210 @@
+
+<!--Tealium is configured-->
+{% if themeSettings.tealiumEnvironment == "production" %}
+		{% set_var tagEnv='prod' %}
+	{% else %}
+		{% if themeSettings.tealiumEnvironment == "staging" %}
+			{% set_var tagEnv='qa' %}
+		{% else %}
+			{% set_var tagEnv='dev' %}
+		{% endif %}
+{% endif %}
+{% if pageContext.cmsContext.template.path %}
+	{% if pageContext.cmsContext.template.path == "404" %}
+		{% set_var pageType='error' %}
+	{% else %}
+		{% if pageContext.cmsContext.template.path == "home" %}
+			{% set_var pageType='home page' %}
+		{% else %}
+			{% if pageContext.cmsContext.template.path == "parent-category" %}
+				{% set_var pageType='gateway' %}
+			{% else %}
+				{% if pageContext.cmsContext.template.path == "search-results" or pageContext.cmsContext.template.path == "no-search-results" %}
+					{% set_var pageType='search results' %}
+				{% else %}
+					{% if pageContext.cmsContext.template.path == "category" %}	
+						{% set_var pageType='category' %}
+					{% else %}
+						{% if pageContext.cmsContext.template.path == "product" %}
+							{% set_var pageType='pdp' %}
+						{% else %}
+							{% if pageContext.cmsContext.template.path == "cart" %}
+								{% set_var pageType='shopping cart' %}
+							{% else %}
+								{% if pageContext.cmsContext.template.path == "checkoutv2" or pageContext.cmsContext.template.path == "checkout" %}
+									{% set_var pageType='checkout' %}
+								{% else %}
+									{% if pageContext.cmsContext.template.path == "confirmationv2" or pageContext.cmsContext.template.path == "confirmation" %} 
+										{% set_var pageType='order confirmation' %}
+									{% else %}
+										{% if pageContext.cmsContext.template.path == "my-account" %}
+											{% set_var pageType='my account' %}
+										{% else %}
+											{% if pageContext.cmsContext.template.path == "site-map" %}
+												{% set_var pageType='sitemap' %}
+											{% else %}
+												{% if pageContext.cmsContext.template.path == "contact-us"  or  pageContext.cmsContext.template.path == "customer-care" or pageContext.cmsContext.template.path == "order-status"%}
+													{% set_var pageType='customer service' %}
+												{% else %}
+													{% if pageContext.cmsContext.template.path == "location" %}
+														{% set_var pageType='store locator' %}
+													{% else %}	
+														{% if pageContext.cmsContext.template.path == "store-detail" %}
+															{% set_var pageType='store details' %}
+														{% else %}
+															{% if pageContext.cmsContext.template.path == "associate-login" %}
+																{% set_var pageType='associate login' %}
+															{% else %}
+																{% if pageContext.cmsContext.template.path == "pages-print-order" %}
+																	{% set_var pageType='print order' %}
+																{% else %}
+																	{% if pageContext.cmsContext.template.path == "check-gc-balance" %}
+																		{% set_var pageType='gift card balance' %}
+																	{% else %}
+																		{% if pageContext.cmsContext.template.path == "blank-page" %}
+																			{% set_var pageType='landing page' %}
+																		{% else %}
+																			{% set_var pageType='other' %}
+																		{% endif %}																	
+																	{% endif %}
+																{% endif %}
+															{% endif %}
+														{% endif %}
+													{% endif %}
+												{% endif %}										
+											{% endif %}	
+										{% endif %}	
+									{% endif %}	
+								{% endif %}	
+							{% endif %}	
+						{% endif %}	
+					{% endif %}	
+				{% endif %}	
+			{% endif %}	
+		{% endif %}
+	{% endif %}
+{% else %}
+	{% if pageContext.pageType == "category" %}	
+		{% set_var pageType='category' %}
+	{% else %}
+		{% set_var pageType='other' %}
+	{% endif %}
+{% endif %}
+<script type="text/javascript">
+//Get Cookie
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i].trim();
+           if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+    }
+    return "";
+}
+//Associate Login
+function getAssociate() {
+	try { 
+		return JSON.parse(unescape(getCookie('aos'))).assID;
+	} catch(e){
+		return '';
+	}
+}
+function getQueryStrings() {
+    var assoc = {};
+    var decode = function(s) { return decodeURIComponent(s.replace(/\+/g, " ")); };
+    var queryString = location.search.substring(1);
+    var keyValues = queryString.split('&');
+
+    for (var i in keyValues) {
+        var key = keyValues[i].split('=');
+        if (key.length > 1) {
+            assoc[decode(key[0])] = decode(key[1]);
+        }
+    }
+    try { 
+    	return assoc.code;
+	} catch(e){
+		return '';
+	}
+}
+function associateItemsWithShippingMethods(items, groupings) {
+	var itemsWithShippingDetails = [];
+	groupings.forEach(function(grouping) {
+		grouping.orderItemIds.forEach(function(orderItemId) {
+				itemsWithShippingDetails.push(grouping.shippingMethodName);
+		});
+	});
+	return itemsWithShippingDetails;
+}
+
+var utag_data = {
+	'environment': "{{tagEnv}}",
+	{% if user.isAuthenticated and user.AccountId %}
+	'customer_id': "{{user.AccountId}}",
+	{% else %}
+		{% if model.customerAccountId %}
+		'customer_id': "{{model.customerAccountId}}",
+		{% else %}
+		'customer_id': "",
+		{% endif %}
+	{% endif %}
+	'is_shopper': '{% if not user.isAnonymous %}1{% else %}0{% endif %}',
+	'is_user': '{% if user.isAuthenticated %}1{% else %}0{% endif %}',
+	'associate_id': getAssociate(),
+	'page_type': '{{pageType}}'	
+	{% if pageContext.cmsContext.template.path == "parent-category" %}
+		, 'category_id': '{{pageContext.categoryCode}}'
+		, 'category_name': '{{pageContext.title}}'				
+	{% endif %} {% if pageContext.cmsContext.template.path == "search-results" or pageContext.cmsContext.template.path == "no-search-results" %}
+			 {% if themeSettings.hideProductPropertyEnabled and themeSettings.hideProductProperty %}{% with labels.hideProductFilterWithoutCategoryId|string_format(themeSettings.hideProductProperty, "true") as filterStr %}{% include_products "modules/analytics/tealium-category-code" with includeFacets=false and pageWithUrl=true and sortWithUrl=true and pageSize=1 and filter=filterStr searchQuery=pageContext.search.query as_parameter %}{% endwith %}{% else %}{% include_products "modules/analytics/tealium-category-code" with includeFacets=false and pageWithUrl=true and sortWithUrl=true and pageSize=1 searchQuery=pageContext.search.query as_parameter %}{% endif %}
+	{% endif %}	{% if pageContext.cmsContext.template.path != "parent-category" and pageContext.categoryId %}
+		, 'category_id': '{{pageContext.categoryCode}}'
+		, 'category_name': '{% for crumb in navigation.breadcrumbs %}{% if not forloop.first %}|{% endif %}{{crumb.name}}{% endfor %}'					
+		{% if themeSettings.hideProductPropertyEnabled and themeSettings.hideProductProperty %}{% with labels.hideProductFilterWithCategoryId|string_format(themeSettings.hideProductProperty, "true", pageContext.categoryId) as filterStr %}{% include_products "modules/analytics/tealium-category-code" with includeFacets=false and pageWithUrl=true and sortWithUrl=true and pageSize=1 and filter=filterStr searchQuery=pageContext.search.query as_parameter %}{% endwith %}{% else %}{% include_products "modules/analytics/tealium-category-code" with includeFacets=false and pageWithUrl=true and sortWithUrl=true and pageSize=1 searchQuery=pageContext.search.query as_parameter %}{% endif %}
+	{% endif %}{% if pageContext.cmsContext.template.path == "product" %}
+		,'product_category': ['{% for crumb in navigation.breadcrumbs %}{% if not forloop.first %}|{% endif %}{{crumb.name}}{% endfor %}']
+		,'product_id': ['{{model.productCode}}'] 
+		,'product_price': ['{% if model.hasPriceRange %}{% if model.priceRange.upper.salePrice %}{{model.priceRange.upper.salePrice | floatformat(2)}}{% else %}{{model.priceRange.upper.price | floatformat(2)}}{% endif %}{% else %}{% if model.price.salePrice %}{{model.price.salePrice | floatformat(2)}}{% else %}{{model.price.price | floatformat(2)}}{% endif %}{% endif %}']
+		, 'product_sku': ['{{model.variationProductCode}}']
+		,'product_name': ['{{model.content.productName}}']
+	{% endif %}{% if pageContext.cmsContext.template.path == "cart" or pageContext.cmsContext.template.path == "checkoutv2" or pageContext.cmsContext.template.path == "checkout" %}
+		,'product_id': [{% for item in model.items %}{% if not forloop.first %},{% endif %}'{{item.product.productCode}}'{% endfor %}]
+		,'product_name': [{% for item in model.items %}{% if not forloop.first %},{% endif %}'{{item.product.name}}'{% endfor %}]
+		,'product_quantity': [{% for item in model.items %}{% if not forloop.first %},{% endif %}'{{item.quantity}}'{% endfor %}]
+		,'product_price': [{% for item in model.items %}{% if not forloop.first %},{% endif %}{% if item.product.price.salePrice %}'{{item.product.price.salePrice}}'{% else %}'{{item.product.price.price}}'{% endif%}{% endfor %}]
+		,'product_sku': [{% for item in model.items %}{% if not forloop.first %},{% endif %}'{{item.product.variationProductCode}}'{% endfor %}]
+	{% endif %}{% if pageContext.cmsContext.template.path == "confirmationv2" or pageContext.cmsContext.template.path == "confirmation" %} 
+		,'is_shopper': '1'
+		,'order_discount': '{{model.orderLevelProductDiscountTotal|add(model.orderLevelHandlingDiscountTotal)|add(model.itemLevelProductDiscountTotal)|add(model.itemLevelHandlingDiscountTotal)}}'
+		,'order_id': '{{model.number}}'
+		,'order_payment_method': '{% for payment in model.payments %}{% if payment.status != "voided" %}{% if payment.paymentType == "CreditCard" %}{{ payment.billingInfo.card.paymentOrCardType }}{% endif %}{% if payment.paymentType == "StoreCredit" %}{{payment.paymentType}}({{ payment.billingInfo.storeCreditCode }}){% endif %}{% if payment.paymentType == "Check" %}{{payment.paymentType}}{% endif %}{% endif %}{% if payment.status != "Voided" and not forloop.last %}|{% endif %}{% endfor %}'
+		,'order_shipping': '{{model.shippingTotal}}'
+		,'order_shipping_discount': '{{model.itemLevelShippingDiscountTotal|add(model.orderLevelShippingDiscountTotal)}}'
+		,'order_shipping_state':'{% with model.destinations|first as destination %}{{ destination.destinationContact.address.stateOrProvince }}{% endwith %}'
+		,'order_subtotal': '{{model.subTotal|subtract(model.itemLevelProductDiscountTotal)}}'
+		,'order_tax':'{{model.itemTaxTotal|add(model.shippingTaxTotal)|add(model.handlingTaxTotal)}}'
+		,'order_total':'{{model.total}}'
+		,'product_id': [{% for item in model.items %}{% if not forloop.first %},{% endif %}'{{item.product.productCode}}'{% endfor %}]
+		,'product_name': [{% for item in model.items %}{% if not forloop.first %},{% endif %}'{{item.product.name}}'{% endfor %}]
+		,'product_quantity': [{% for item in model.items %}{% if not forloop.first %},{% endif %}'{{item.quantity}}'{% endfor %}]
+		,'product_price': [{% for item in model.items %}{% if not forloop.first %},{% endif %}{% if item.product.price.salePrice %}'{{item.product.price.salePrice}}'{% else %}'{{item.product.price.price}}'{% endif%}{% endfor %}]
+		,'product_sku': [{% for item in model.items %}{% if not forloop.first %},{% endif %}'{{item.product.variationProductCode}}'{% endfor %}]
+		,'product_shipping_method': associateItemsWithShippingMethods({ {% for item in model.items %} '{{item.id}}': {{item.quantity}} {% if not forloop.last %},{% endif %} {% endfor %} }, [{% for grouping in model.groupings %} {orderItemIds: [{% for orderItemId in grouping.orderItemIds %} '{{orderItemId}}' {% if not forloop.last %},{% endif %} {% endfor %}], shippingMethodName: '{{grouping.shippingMethodName}}' } {% if not forloop.last %},{% endif %} {% endfor %}])
+		{% if model.couponCodes.length > 0 %},'order_promo_codes': [{% for couponCode in model.couponCodes %}{% if not forloop.first %}|{% endif %}'{{couponCode}}'{% endfor %}]{% endif %}
+		,'product_shipping_surcharge': [{% for item in model.items %}{% if not forloop.first %},{% endif %}'{% if item.product.measurements.height.value == 2 and item.product.measurements.weight.value != 1 %}{{item.product.measurements.weight.value}}{% endif %}'{% endfor %}]
+		,'product_markdown_price':[{% for item in model.items %}{% if not forloop.first %},{% endif %}'{% if item.product.price.salePrice %}{{item.product.price.price|subtract(item.product.price.salePrice)}}{% endif %}'{% endfor %}]
+	{% endif %}{% if pageContext.cmsContext.template.path == "store-detail" %}
+		,'store_id': getQueryStrings()
+	{% endif %}{% if pageContext.query.tq and pageContext.query.tq != "" %}
+	, 'search_redirect_term': '{{pageContext.query.tq}}'
+	{% endif %}
+};
+</script>
+<script type="text/javascript">
+	 console.log("Called");
+	(function(a,b,c,d){
+	a='//tags.tiqcdn.com/utag/bbb/christmastreeshop/{{tagEnv}}/utag.js';
+	b=document;c='script';d=b.createElement(c);d.src=a;d.type='text/java'+c;d.async=true;
+	a=b.getElementsByTagName(c)[0];a.parentNode.insertBefore(d,a);
+	})();
+</script>

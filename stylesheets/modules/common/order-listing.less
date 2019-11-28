@@ -1,0 +1,34 @@
+﻿.mz-orderlisting {
+    @leftWidth: @orderDetailWidth + @gutter;
+    position: relative;
+    border: 1px solid @colorLightGray;
+    min-height: @orderDetailWidth;
+    border-top:0;
+    .mz-orderlisting-detail {
+        box-sizing: border-box;
+        height: 100%;
+        padding: @gutter/2;
+        background-color: @colorLightGray;
+        @media (min-width: 768px) {
+            position: absolute;
+            width: @leftWidth;
+        }
+    }
+    .mz-orderlisting-items {
+        padding: @defaultGutter 0;
+        text-align: left;
+        .mz-itemlisting  {
+            border-bottom: 1px solid @colorLightGray;
+            &:last-child{
+                border-bottom:0;
+            }
+        }
+        @media (min-width: 768px) {
+            margin-left: @leftWidth;
+            padding: 0;
+        }
+    }
+    .mz-orderlisting-date {
+        margin: @gutter/4 0;
+    }
+}
