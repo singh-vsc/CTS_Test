@@ -49,7 +49,7 @@
               },
               {
                   "xtype": "mz-input-checkbox",
-                  "name": "requireGDPR",
+                  "name": "requireCCPA",
                   "fieldLabel": "Require agreement to GDPR terms on account creation and show GDPR messaging in checkout"
               }
             ]

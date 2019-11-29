@@ -10,8 +10,7 @@
     "allowProduction": true,
     "baseTheme": "https://github.com/singh-vsc/CTS_Test",
     "baseThemeVersion": {
-      "commit": "HEAD",
-      "version": "HEAD"
+      "commit": "1fb4deb6e351b176bc7b23da4d3fb33d6dba7a84"
     },
     "baseThemeChannel": "stable"
   },
@@ -463,7 +462,7 @@
   ],
   "settings": {
     "showCookieNotice": true,
-    "requireGDPR": true,
+    "requireCCPA": true,
     "allProductsCategoryId": "",
     "customCountries": [
       {

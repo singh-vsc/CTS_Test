@@ -12,7 +12,7 @@ define([
     tenant and site ID, which will last a year, preventing the notice from
     appearing again.
   */
-  console.log("COokie called");
+  console.log("cookie called");
   var apiContext = require.mozuData('apicontext');
   var tenantId = apiContext.headers['x-vol-tenant'];
   var siteId = apiContext.headers['x-vol-site'];
@@ -32,7 +32,14 @@ define([
              if (!accepted){
                window.open(Hypr.getLabel('learnMoreCookiesLink'));
              } else {
-               $.cookie('kibo-'+tenantId+'-'+siteId+'-'+'accept-cookies', true, { expires: 365 });
+               $.cookie('kibo-'+tenantId+'-'+siteId+'-'+'accept-cookies', true, { expires: 4*365 });
+               var datetime = new Date().toLocaleString();
+               $.getJSON("https://api.ipify.org/?format=json", function(e) {
+                  console.log("Console : "+e.ip);
+                  var details = "timestamp : "+datetime+"\nIp : "+e.ip;
+                  $.cookie('kibo-'+tenantId+'-'+siteId+'-'+'details', details, { expires: 4*365 });
+              });
+               
              }
            }
        });
