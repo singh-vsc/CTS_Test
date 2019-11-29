@@ -36,24 +36,7 @@
                     "fieldLabel": "Show Promo Dropzone"
                 }
             ]
-        },
-         {
-            "xtype": "panel",
-            "title": "CCPA/GDPR",
-            "collapsed": false,
-            "items": [
-              {
-                  "xtype": "mz-input-checkbox",
-                  "name": "showCookieNotice",
-                  "fieldLabel": "Display Cookie Notice until shopper agrees to cookie terms"
-              },
-              {
-                  "xtype": "mz-input-checkbox",
-                  "name": "requireGDPR",
-                  "fieldLabel": "Require agreement to GDPR terms on account creation and show GDPR messaging in checkout"
-              }
-            ]
-        },
+        },        
         {
             "xtype": "panel",
             "title": "Extended Properties",
@@ -866,6 +849,48 @@
                     "fieldLabel": "Content For CA Warning"
                 }
             ]    
+        },
+        {
+            "xtype": "panel",
+            "title": "CCPA/GDPR Banner - Cookie Notice",
+            "collapsed": false,
+            "items": [
+                {
+                    "xtype": "mz-input-checkbox",
+                    "name": "showCookieNotice",
+                    "fieldLabel": "Display Cookie Notice until shopper agrees to cookie terms"
+                },
+                {
+                    "xtype": "mz-input-checkbox",
+                    "name": "requireGDPR",
+                    "fieldLabel": "Require agreement to GDPR terms on account creation and show GDPR messaging in checkout"
+                },
+                {
+                    "xtype": "mz-input-text",
+                    "name": "cookieNoticeTitle",
+                    "fieldLabel": "Cookie Notice Title"
+                },
+                {
+                    "xtype": "mz-input-textarea",
+                    "name": "cookieNoticeText",
+                    "fieldLabel": "Cookie Notice Text"
+                },
+                {
+                    "xtype": "mz-input-text",
+                    "name": "acceptCookies",
+                    "fieldLabel": "Accept Cookies Button Text"
+                },
+                {
+                    "xtype": "mz-input-text",
+                    "name": "moreInformation",
+                    "fieldLabel": "More Information Text"
+                },
+                {
+                    "xtype": "mz-input-text",
+                    "name": "moreInformationLink",
+                    "fieldLabel": "Link to learn more about Privacy Policy"
+                }
+            ]
         }
     ]
 }

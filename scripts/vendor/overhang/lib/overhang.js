@@ -10,7 +10,7 @@ $.fn.overhang = function (arguments) {
 
   var $element = $(this);
 
-  var $overhang = $("<div class='overhang'></div>");
+  var $overhang = $("<div class='overhang ccpa-banner'></div>");
   var $overlay = $("<div class='overhang-overlay'></div>");
 
   $(".overhang").remove();
@@ -87,12 +87,12 @@ $.fn.overhang = function (arguments) {
   }
 
   // Style colors
-  $overhang.css("background-color", attributes.primary);
-  $overhang.css("border-bottom", "6px solid " + attributes.accent);
+  //$overhang.css("background-color", attributes.primary);
+  //$overhang.css("border-bottom", "6px solid " + attributes.accent);
 
   // Message
-  var $message = $("<span class='overhang-message'></span>");
-  $message.css("color", attributes.textColor);
+  var $message = $("<span class='overhang-message ccpa-text'></span>");
+  //$message.css("color", attributes.textColor);
 
   // Assign html or text
   if (attributes.html) {
@@ -105,11 +105,11 @@ $.fn.overhang = function (arguments) {
 
   // Additional overhang elements
   var $inputField = $("<input class='overhang-prompt-field' />");
-  var $yesButton = $("<button class='overhang-yes-option'>" + attributes.yesMessage + "</button>");
-  var $noButton = $("<button class='overhang-no-option'>" + attributes.noMessage + "</button>");
-
-  $yesButton.css("background-color", attributes.yesColor);
-  $noButton.css("background-color", attributes.noColor);
+  var $yesButton = $("<button class='mz-button button_primary'>" + attributes.yesMessage + "</button>");
+  var $noButton = $("<button class='more-info'>" + attributes.noMessage + "</button>"); 
+  
+  //$yesButton.css("background-color", attributes.yesColor);
+  //$noButton.css("background-color", attributes.noColor);
 
   // Close button
   if (attributes.closeConfirm) {
@@ -138,8 +138,8 @@ $.fn.overhang = function (arguments) {
   } else if (attributes.type === "confirm") {
 
     // Add choice buttons
-    $overhang.append($yesButton);
     $overhang.append($noButton);
+    $overhang.append($yesButton);    
 
     $overhang.append($close);
 

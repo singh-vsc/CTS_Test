@@ -10,8 +10,7 @@
     "allowProduction": true,
     "baseTheme": "https://github.com/singh-vsc/CTS_Test",
     "baseThemeVersion": {
-      "commit": "HEAD",
-      "version": "HEAD"
+      "commit": "1fb4deb6e351b176bc7b23da4d3fb33d6dba7a84"
     },
     "baseThemeChannel": "stable"
   },
@@ -464,6 +463,11 @@
   "settings": {
     "showCookieNotice": true,
     "requireGDPR": true,
+    "cookieNoticeTitle": "Cookie Notice",
+    "cookieNoticeText": "By clicking \"Accept\", you agree that we may use third party tracking technology (e.g. cookies) for analytics and advertising purposes.",
+    "acceptCookies": "Accept",
+    "moreInformation": "More Information",
+    "moreInformationLink": "https://www.christmastreeshops.com/safety-security-privacy", 
     "allProductsCategoryId": "",
     "customCountries": [
       {

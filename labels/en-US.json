@@ -1,8 +1,8 @@
 {
-    "acceptCookies": "Accept Cookies",
+    "acceptCookies": "Accept",
     "cookieNoticeTitle": "Cookie Notice",
-    "cookieNotice": "This site uses cookies to personalize content. By using this site or accepting cookies you are agreeing to our use of cookies.",
-    "learnMore": "Learn More",
+    "cookieNotice": "By clicking \"Accept\", you agree that we may use third party tracking technology (e.g. cookies) for analytics and advertising purposes.",
+    "learnMore": "Learn More",    
     "learnMoreCookiesLink": "https://kibocommerce.com/privacy/",
     "toggleToMultiShip": "I want to ship to multiple addresses",
     "toggleToSingleShip": "Ship to single address",

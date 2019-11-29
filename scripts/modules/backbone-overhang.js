@@ -39,9 +39,10 @@ define([
           message = this.get('message');
         } else if (this.get('title') && this.get('text')){
           html = true;
-          var title = this.get('title') ? '<p style="color:'+this.get('textColor')+'; font-size:18px">'+this.get('title')+'</p>' : '';
-          var text = this.get('text') ? '<p style="font-size:14px">'+this.get('text')+'</p>' : '';
-          message = title + text;
+          //var title = this.get('title') ? '<p style="color:'+this.get('textColor')+'; font-size:18px">'+this.get('title')+'</p>' : '';
+          var text = this.get('text') ? '<p>'+this.get('text')+'</p>' : '';
+          //message = title + text;
+          message = text;
         }
         else {
           message = this.get('text') ? this.get('text') : this.get('title');
