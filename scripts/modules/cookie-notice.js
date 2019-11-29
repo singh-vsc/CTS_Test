@@ -3,8 +3,9 @@ define([
   'underscore',
   'modules/jquery-mozu',
   'modules/backbone-overhang',
-  'hyprlive'
-], function(Backbone, _, $, OverhangModel, Hypr){
+  'hyprlive',
+  'hyprlivecontext'
+], function(Backbone, _, $, OverhangModel, Hypr, HyprLiveContext){
   /*
     Displays a notice at the bottom of the screen with two buttons
     informing the user that the website uses cookies.
@@ -12,7 +13,7 @@ define([
     tenant and site ID, which will last a year, preventing the notice from
     appearing again.
   */
-  console.log("cookie called");
+  console.log("Cookie called");
   var apiContext = require.mozuData('apicontext');
   var tenantId = apiContext.headers['x-vol-tenant'];
   var siteId = apiContext.headers['x-vol-site'];
@@ -47,6 +48,5 @@ define([
            console.log("Console Open modal");
            cookieNoticeModel.open();
       // });
-
     }
 });

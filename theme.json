@@ -463,6 +463,11 @@
   "settings": {
     "showCookieNotice": true,
     "requireCCPA": true,
+    "cookieNoticeTitle": "Cookie Notice",
+    "cookieNoticeText": "By clicking \"Accept\", you agree that we may use third party tracking technology (e.g. cookies) for analytics and advertising purposes.",
+    "acceptCookies": "Accept",
+    "moreInformation": "More Information",
+    "moreInformationLink": "https://www.christmastreeshops.com/safety-security-privacy", 
     "allProductsCategoryId": "",
     "customCountries": [
       {
