@@ -19,34 +19,37 @@ define([
   var siteId = apiContext.headers['x-vol-site'];
   var acceptedCookiesNotice = $.cookie('kibo-'+tenantId+'-'+siteId+'-'+'accept-cookies');
   console.log("Enabled : "+acceptedCookiesNotice);
+
   if (typeof acceptedCookiesNotice === "undefined" || !acceptedCookiesNotice) {
-      console.log("Inside Condition");
-      var cookieNoticeModel = new OverhangModel({
-           title: Hypr.getLabel('cookieNoticeTitle'),
-           text: Hypr.getLabel('cookieNotice'),
-           type: 'confirm',
-           yesMessage: Hypr.getLabel('acceptCookies'),
-           noMessage: Hypr.getLabel('learnMore'),
-           yesColor: '#222',
-           noColor: '#222',
-           callback: function(accepted){
-             if (!accepted){
-               window.open(Hypr.getLabel('learnMoreCookiesLink'));
-             } else {
-               $.cookie('kibo-'+tenantId+'-'+siteId+'-'+'accept-cookies', true, { expires: 4*365 });
-               var datetime = new Date().toLocaleString();
-               $.getJSON("https://api.ipify.org/?format=json", function(e) {
-                  console.log("Console : "+e.ip);
-                  var details = "timestamp : "+datetime+"\nIp : "+e.ip;
-                  $.cookie('kibo-'+tenantId+'-'+siteId+'-'+'details', details, { expires: 4*365 });
-              });
-               
-             }
-           }
-       });
-      // $(document).ready(function(){
-           console.log("Console Open modal");
-           cookieNoticeModel.open();
-      // });
-    }
+    console.log("Inside Condition");
+    var cookieNoticeModel = new OverhangModel({
+      title: HyprLiveContext.locals.themeSettings.cookieNoticeTitle,
+      text: HyprLiveContext.locals.themeSettings.cookieNoticeText,
+      type: 'confirm',
+      yesMessage: HyprLiveContext.locals.themeSettings.acceptCookies,
+      noMessage: HyprLiveContext.locals.themeSettings.moreInformation, 
+      yesColor: '#222',
+      noColor: '#222',
+      callback: function(accepted){
+        if (!accepted){
+          window.open(HyprLiveContext.locals.themeSettings.moreInformationLink);
+        } else {
+          $.cookie('kibo-'+tenantId+'-'+siteId+'-'+'accept-cookies', true, { expires: 4*365 });
+          var datetime = new Date().toLocaleString();
+          $.getJSON("https://api.ipify.org/?format=json", function(e) {
+            console.log("Console : "+e.ip);
+            var details = "timestamp : "+datetime+"\nIp : "+e.ip;
+            $.cookie('kibo-'+tenantId+'-'+siteId+'-'+'details', details, { expires: 4*365 });
+          });
+        }
+      }
+    });
+    
+    // $(document).ready(function(){
+         console.log("Console Open modal");
+         cookieNoticeModel.open();
+    // });
+
+  }
+
 });
