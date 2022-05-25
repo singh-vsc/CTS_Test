@@ -17,7 +17,7 @@
     "url": "https://github.com/mozu-customer-success/CTS-Theme.git"
   },
   "devDependencies": {
-    "grunt": "^0.4.5",
+    "grunt": "^1.5.3",
     "grunt-contrib-compress": "^0.14.0",
     "grunt-contrib-copy": "^0.8.2",
     "grunt-contrib-jshint": "^0.11.3",
